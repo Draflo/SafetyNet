@@ -1,5 +1,6 @@
 package com.openclassrooms.safetynet.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class FirestationService {
 		return firestationRepository.findById(id);
 	}
 	
-	public Iterable<Firestation> getFirestation() { 
+	public Iterable<Firestation> list() { 
 		return firestationRepository.findAll();
 	}
 	
@@ -29,9 +30,8 @@ public class FirestationService {
 		firestationRepository.deleteById(id);
 	}
 	
-	public Firestation saveFirestation(Firestation firestation) {
-		Firestation savedFirestation = firestationRepository.save(firestation);
-		return savedFirestation;
+	public Iterable<Firestation> save(List<Firestation> firestations) {
+		return firestationRepository.saveAll(firestations);
 	}
 
 }
