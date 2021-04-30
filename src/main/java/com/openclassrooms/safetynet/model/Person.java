@@ -11,17 +11,17 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "persons")
-public class Persons {
+public class Person {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	private String firstname;
-	private String lastname;
-	private String adress;
+	private String firstName;
+	private String lastName;
+	private String address;
 	private String city;
 	private Integer zip;
-	private Integer phone;
+	private String phone;
 	private String email;
 	
-	public Persons() {}
+	public Person() {}
 }

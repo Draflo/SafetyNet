@@ -8,8 +8,8 @@ import lombok.Data;
 public class LoadDataModel {
 	
 	private List<Firestation> firestations;
-	private List<Persons> persons;
-	private List<MedicalRecords> medicalrecords;
+	private List<Person> persons;
+	private List<MedicalRecord> medicalrecords;
 	
 	public LoadDataModel() {}
 }

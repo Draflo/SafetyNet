@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.AttributeConverter;
 
+
 public class ListStringConverter implements AttributeConverter<List<String>, String> {
 	
 	private static final String SEPARATOR = "; ";

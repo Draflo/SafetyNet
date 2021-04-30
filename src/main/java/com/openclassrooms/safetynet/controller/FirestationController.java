@@ -24,9 +24,81 @@ public class FirestationController {
 		this.firestationService = firestationService;
 	}
 
-	@GetMapping
+	/**
+	 * Read - Get all firestations
+	 * 
+	 * @return - An Iterable object of Firestation full filled
+	 */
+	@GetMapping("/firestations")
 	public Iterable<Firestation> list() {
 		return firestationService.list();
 
+	}
+
+	/**
+	 * Read - Get one firestation
+	 * 
+	 * @param id The id of the firestation
+	 * @return An firestation object full filled
+	 */
+	@GetMapping("/firestation/{id}")
+	public Firestation getFirestation(@PathVariable("id") final Long id) {
+		Optional<Firestation> firestation = firestationService.getFirestation(id);
+		if (firestation.isPresent()) {
+			return firestation.get();
+		} else {
+			return null;
+		}
+	}
+
+	/**
+	 * Create - Add a new firestation
+	 * 
+	 * @param Firestation An object firestation
+	 * @return The firestation object saved
+	 */
+	@PostMapping("/firestation")
+	public Firestation createFirestation(@RequestBody Firestation firestation) {
+		return firestationService.saveFirestation(firestation);
+	}
+
+	/**
+	 * Delete - Delete a firestation
+	 * 
+	 * @param id - The id of the firestation to delete
+	 */
+	@DeleteMapping("/firestation/{id}")
+	public void deleteFirestation(@PathVariable("id") final Long id) {
+		firestationService.deleteFirestation(id);
+	}
+
+	/**
+	 * Update - Update an existing firestation
+	 * 
+	 * @param id       - The id of the firestation to update
+	 * @param firestation - The firestation object updated
+	 * @return
+	 */
+	@PutMapping("/firestation/{id}")
+	public Firestation updateFirestation(@PathVariable("id") final Long id, @RequestBody Firestation firestation) {
+		Optional<Firestation> f = firestationService.getFirestation(id);
+		if (f.isPresent()) {
+			Firestation currentFirestation = f.get();
+
+			String address = firestation.getAddress();
+			if (address != null) {
+				currentFirestation.setAddress(address);
+			}
+			Integer station = firestation.getStation();
+			if (station != null) {
+				currentFirestation.setStation(station);
+			}
+
+			firestationService.saveFirestation(currentFirestation);
+			return currentFirestation;
+
+		} else {
+			return null;
+		}
 	}
 }

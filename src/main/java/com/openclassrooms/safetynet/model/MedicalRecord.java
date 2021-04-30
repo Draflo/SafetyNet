@@ -19,7 +19,7 @@ import lombok.Data;
 @Entity
 @AllArgsConstructor
 @Table(name = "medicalrecords")
-public class MedicalRecords {
+public class MedicalRecord {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,13 +27,13 @@ public class MedicalRecords {
 	private Long id;
 	
 	@Column(name = "first_name")
-	private String firstname;
+	private String firstName;
 	
 	@Column(name = "last_name")
-	private String lastname;
+	private String lastName;
 	
 	@Column(name = "birthdate")
-	private Integer birthdate;
+	private String birthdate;
 	
 	@Column(name = "medications")
 	@Convert(converter = ListStringConverter.class)
@@ -44,7 +44,7 @@ public class MedicalRecords {
 	private List<String> allergies;
 	
 
-	public MedicalRecords() {
+	public MedicalRecord() {
 	}
 
 }
