@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.openclassrooms.safetynet.model.Firestation;
-import com.openclassrooms.safetynet.model.Persons;
+import com.openclassrooms.safetynet.model.Person;
 import com.openclassrooms.safetynet.repository.FirestationRepository;
-import com.openclassrooms.safetynet.repository.PersonsRepository;
+import com.openclassrooms.safetynet.repository.PersonRepository;
 
 import lombok.Data;
 
@@ -18,22 +18,29 @@ import lombok.Data;
 public class PersonService {
 
 	@Autowired
-	private PersonsRepository personsRepository;
+	private PersonRepository personRepository;
 
-	public Optional<Persons> getPersons(final Long id) {
-		return personsRepository.findById(id);
+	public Optional<Person> getPersons(final Long id) {
+		return personRepository.findById(id);
 	}
 
-	public Iterable<Persons> list() {
-		return personsRepository.findAll();
+	public Iterable<Person> list() {
+		return personRepository.findAll();
 	}
 
 	public void deletePersons(final Long id) {
-		personsRepository.deleteById(id);
+		personRepository.deleteById(id);
 	}
 
-	public Iterable<Persons> save(List<Persons> persons) {
-		return personsRepository.saveAll(persons);
+	public Iterable<Person> save(List<Person> persons) {
+		return personRepository.saveAll(persons);
 	}
 
+	public Person savePerson(Person person) {
+		return personRepository.save(person);
+	}
+
+	public Person saveUpdated(Person person) {
+		return personRepository.save(person);
+	}
 }
