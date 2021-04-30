@@ -6,8 +6,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.openclassrooms.safetynet.model.MedicalRecords;
-import com.openclassrooms.safetynet.repository.MedicalRecordsRepository;
+import com.openclassrooms.safetynet.model.Firestation;
+import com.openclassrooms.safetynet.model.MedicalRecord;
+import com.openclassrooms.safetynet.repository.MedicalRecordRepository;
 
 import lombok.Data;
 
@@ -16,22 +17,29 @@ import lombok.Data;
 public class MedicalRecordService {
 
 	@Autowired
-	private MedicalRecordsRepository medicalRecordsRepository;
+	private MedicalRecordRepository medicalRecordRepository;
 
-	public Optional<MedicalRecords> getMedicalRecords(final Long id) {
-		return medicalRecordsRepository.findById(id);
+	public Optional<MedicalRecord> getMedicalRecords(final Long id) {
+		return medicalRecordRepository.findById(id);
 	}
 
-	public Iterable<MedicalRecords> list() {
-		return medicalRecordsRepository.findAll();
+	public Iterable<MedicalRecord> list() {
+		return medicalRecordRepository.findAll();
 	}
 
 	public void deleteMedicalRecords(final Long id) {
-		medicalRecordsRepository.deleteById(id);
+		medicalRecordRepository.deleteById(id);
 	}
 
-	public Iterable<MedicalRecords> save(List<MedicalRecords> medicalRecords) {
-		return medicalRecordsRepository.saveAll(medicalRecords);
+	public Iterable<MedicalRecord> save(List<MedicalRecord> medicalRecords) {
+		return medicalRecordRepository.saveAll(medicalRecords);
 	}
 
+	public MedicalRecord saveMedicalRecord(MedicalRecord medicalRecord) {
+		return medicalRecordRepository.save(medicalRecord);
+	}
+
+	public MedicalRecord saveUpdated(MedicalRecord medicalRecord) {
+		return medicalRecordRepository.save(medicalRecord);
+	}
 }
