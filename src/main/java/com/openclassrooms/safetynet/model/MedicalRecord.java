@@ -25,24 +25,23 @@ public class MedicalRecord {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
-	
+
 	@Column(name = "first_name")
 	private String firstName;
-	
+
 	@Column(name = "last_name")
 	private String lastName;
-	
+
 	@Column(name = "birthdate")
 	private String birthdate;
-	
+
 	@Column(name = "medications")
 	@Convert(converter = ListStringConverter.class)
 	private List<String> medications;
-	
+
 	@Column(name = "allergies")
 	@Convert(converter = ListStringConverter.class)
 	private List<String> allergies;
-	
 
 	public MedicalRecord() {
 	}

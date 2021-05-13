@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.openclassrooms.safetynet.model.Firestation;
@@ -67,9 +68,9 @@ public class FirestationController {
 	 * 
 	 * @param id - The id of the firestation to delete
 	 */
-	@DeleteMapping("/firestation/{id}")
-	public void deleteFirestation(@PathVariable("id") final Long id) {
-		firestationService.deleteFirestation(id);
+	@DeleteMapping("/firestation")
+	public void deleteFirestation(@RequestParam("address") String address) {
+		firestationService.deleteFirestation(address);
 	}
 
 	/**
