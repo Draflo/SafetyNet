@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.openclassrooms.safetynet.model.MedicalRecord;
@@ -29,7 +30,7 @@ public class MedicalRecordsController {
 	 * 
 	 * @return - An Iterable object of MedicalRecord full filled
 	 */
-	@GetMapping("/medicalrecords")
+	@GetMapping("/medicalRecords")
 	public Iterable<MedicalRecord> list() {
 		return medicalRecordService.list();
 
@@ -41,7 +42,7 @@ public class MedicalRecordsController {
 	 * @param id The id of the medicalRecord
 	 * @return An medicalRecord object full filled
 	 */
-	@GetMapping("/medicalrecord/{id}")
+	@GetMapping("/medicalRecord/{id}")
 	public MedicalRecord getMedicalRecord(@PathVariable("id") final Long id) {
 		Optional<MedicalRecord> medicalRecord = medicalRecordService.getMedicalRecords(id);
 		if (medicalRecord.isPresent()) {
@@ -67,9 +68,9 @@ public class MedicalRecordsController {
 	 * 
 	 * @param id - The id of the employee to delete
 	 */
-	@DeleteMapping("/medicalRecord/{id}")
-	public void deleteMedicalRecord(@PathVariable("id") final Long id) {
-		medicalRecordService.deleteMedicalRecords(id);
+	@DeleteMapping("/medicalRecord")
+	public void deleteMedicalRecord(@RequestParam("lastName") String lastName, @RequestParam("firstName") String firstName) {
+		medicalRecordService.deleteMedicalRecord(lastName, firstName);
 	}
 
 	/**

@@ -1,14 +1,15 @@
 package com.openclassrooms.safetynet.service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.openclassrooms.safetynet.model.Firestation;
 import com.openclassrooms.safetynet.model.Person;
-import com.openclassrooms.safetynet.repository.FirestationRepository;
 import com.openclassrooms.safetynet.repository.PersonRepository;
 
 import lombok.Data;
@@ -23,13 +24,44 @@ public class PersonService {
 	public Optional<Person> getPersons(final Long id) {
 		return personRepository.findById(id);
 	}
+	
+	public Person findByFirstNameAndLastName(String firstName, String lastName) {
+		Optional<Person> person = personRepository.findByFirstNameAndLastName(firstName, lastName);
+		
+		return person.orElseThrow(()->new NoSuchElementException("Person doesn't exist"));
+	}
+	
+	public Iterable<Person> findByAddress(String address) {
+		Optional<Iterable<Person>> person = personRepository.findPersonByAddress(address);
+		
+		return person.orElseThrow(()->new NoSuchElementException("Nobody lives at this address"));
+	}
+	
+	public Iterable<Person> getPhoneByStation(int station) {
+		Optional<Iterable<Person>> phone = personRepository.findPhoneByStation(station);
+		
+		return phone.orElseThrow(()->new NoSuchElementException("Nobody is covered by this station"));
+	}
+	
+	public Iterable<Person> getPersonByStation(int station) {
+		Optional<Iterable<Person>> person = personRepository.findPersonByStation(station);
+		
+		return person.orElseThrow(()->new NoSuchElementException("Nobody is covered by this station"));
+	}
+	
+	public Iterable<Person> getMailFromCity(String city) {
+		Optional<Iterable<Person>> emails = personRepository.findMailFromCity(city);
+		
+		return emails.orElseThrow(()->new NoSuchElementException("No mail found for this city"));
+	}
 
 	public Iterable<Person> list() {
 		return personRepository.findAll();
 	}
 
-	public void deletePersons(final Long id) {
-		personRepository.deleteById(id);
+	@Transactional
+	public void deletePerson(final String lastName, final String firstName) {
+		personRepository.delete(lastName, firstName);
 	}
 
 	public Iterable<Person> save(List<Person> persons) {
