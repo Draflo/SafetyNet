@@ -31,6 +31,24 @@ public class PersonService {
 		return person.orElseThrow(()->new NoSuchElementException("Person doesn't exist"));
 	}
 	
+	public Iterable<Person> findByAddress(String address) {
+		Optional<Iterable<Person>> person = personRepository.findPersonByAddress(address);
+		
+		return person.orElseThrow(()->new NoSuchElementException("Nobody lives at this address"));
+	}
+	
+	public Iterable<Person> getPhoneByStation(int station) {
+		Optional<Iterable<Person>> phone = personRepository.findPhoneByStation(station);
+		
+		return phone.orElseThrow(()->new NoSuchElementException("Nobody is covered by this station"));
+	}
+	
+	public Iterable<Person> getPersonByStation(int station) {
+		Optional<Iterable<Person>> person = personRepository.findPersonByStation(station);
+		
+		return person.orElseThrow(()->new NoSuchElementException("Nobody is covered by this station"));
+	}
+	
 	public Iterable<Person> getMailFromCity(String city) {
 		Optional<Iterable<Person>> emails = personRepository.findMailFromCity(city);
 		

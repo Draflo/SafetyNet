@@ -40,6 +40,11 @@ public class PersonsController {
 	public Iterable<Person> getAllMailFromCity(@RequestParam String city) {
 		return personService.getMailFromCity(city);
 	}
+	
+	@GetMapping("/phoneAlert")
+	public Iterable<Person> getPhoneNumberFromStation(@RequestParam(value = "firestation") Integer station) {
+		return personService.getPhoneByStation(station);
+	}
 
 	/**
 	 * Read - Get one person

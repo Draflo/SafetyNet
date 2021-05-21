@@ -20,4 +20,13 @@ public interface PersonRepository extends CrudRepository<Person, Long>{
 	
 	@Query(value = "select p.email from Person p where p.city =:city")
 	Optional<Iterable<Person>> findMailFromCity(String city);
+	
+	@Query(value = "select p from Person p where p.address = :address")
+	Optional<Iterable<Person>> findPersonByAddress(String address);
+	
+	@Query(value = "select p.phone from Person p, Firestation f where f.station = :station and p.address = f.address")
+    Optional<Iterable<Person>> findPhoneByStation(int station);
+	
+	 @Query(value = "select p from Person p, Firestation f where f.station = :station and p.address = f.address")
+	Optional<Iterable<Person>> findPersonByStation(int station);
 }

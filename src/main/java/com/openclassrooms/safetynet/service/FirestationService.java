@@ -31,10 +31,14 @@ public class FirestationService {
 	}
 	
 	public Firestation findByAddress(String address) throws Exception {
-		Optional<Firestation> firestation = firestationRepository.findByAddress(address);
+		Optional<Firestation> firestation = firestationRepository.findFirstByAddress(address);
 		
 		return firestation.orElseThrow(()->new NoSuchElementException("Person doesn't exist"));
 	}
+	
+	public Iterable<String> findByStation(int station) {
+        return firestationRepository.findAddressesByStation(station);
+    }
 
 	@Transactional
 	public void deleteFirestation(final String address) {

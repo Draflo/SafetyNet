@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.openclassrooms.safetynet.model.MedicalRecord;
+import com.openclassrooms.safetynet.model.Person;
 import com.openclassrooms.safetynet.repository.MedicalRecordRepository;
 
 import lombok.Data;
@@ -33,6 +34,10 @@ public class MedicalRecordService {
 		Optional<MedicalRecord> medicalRecord = medicalRecordRepository.findByFirstNameAndLastName(firstName, lastName);
 		
 		return medicalRecord.orElseThrow(()->new NoSuchElementException("Person doesn't exist"));
+	}
+	
+	public Iterable<MedicalRecord> findByAddress(String address) {
+		return medicalRecordRepository.findPersonByAddress(address);
 	}
 
 	@Transactional
