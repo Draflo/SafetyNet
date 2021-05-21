@@ -1,5 +1,6 @@
 package com.openclassrooms.safetynet.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.openclassrooms.safetynet.model.Person;
@@ -32,6 +34,16 @@ public class PersonsController {
 	public Iterable<Person> list() {
 		return personService.list();
 
+	}
+	
+	@GetMapping("/communityEmail")
+	public Iterable<Person> getAllMailFromCity(@RequestParam String city) {
+		return personService.getMailFromCity(city);
+	}
+	
+	@GetMapping("/phoneAlert")
+	public Iterable<Person> getPhoneNumberFromStation(@RequestParam(value = "firestation") Integer station) {
+		return personService.getPhoneByStation(station);
 	}
 
 	/**
@@ -66,15 +78,15 @@ public class PersonsController {
 	 * 
 	 * @param id - The id of the person to delete
 	 */
-	@DeleteMapping("/person/{id}")
-	public void deletePerson(@PathVariable("id") final Long id) {
-		personService.deletePersons(id);
+	@DeleteMapping("/person")
+	public void deletePerson(@RequestParam("lastName") String lastName, @RequestParam("firstName") String firstName) {
+		personService.deletePerson(lastName, firstName);
 	}
 
 	/**
 	 * Update - Update an existing person
 	 * 
-	 * @param id       - The id of the person to update
+	 * @param id     - The id of the person to update
 	 * @param person - The person object updated
 	 * @return
 	 */
@@ -112,4 +124,5 @@ public class PersonsController {
 			return null;
 		}
 	}
+
 }
