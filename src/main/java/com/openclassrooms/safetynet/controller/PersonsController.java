@@ -1,9 +1,9 @@
 package com.openclassrooms.safetynet.controller;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -50,7 +50,7 @@ public class PersonsController {
 	 * Read - Get one person
 	 * 
 	 * @param id The id of the person
-	 * @return An person object full filled
+	 * @return A person object full filled
 	 */
 	@GetMapping("/person/{id}")
 	public Person getPerson(@PathVariable("id") final Long id) {
@@ -69,8 +69,9 @@ public class PersonsController {
 	 * @return The person object saved
 	 */
 	@PostMapping("/person")
-	public Person createPerson(@RequestBody Person person) {
-		return personService.savePerson(person);
+	public ResponseEntity<Person> createPerson(@RequestBody Person person) {
+		Person savePerson = personService.savePerson(person);
+		return ResponseEntity.created(null).body(savePerson);
 	}
 
 	/**
