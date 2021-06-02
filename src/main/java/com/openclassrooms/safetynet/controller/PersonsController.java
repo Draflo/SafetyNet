@@ -32,7 +32,7 @@ public class PersonsController {
 	 */
 	@GetMapping("/persons")
 	public Iterable<Person> list() {
-		return personService.list();
+		return personService.findAll();
 
 	}
 	

@@ -30,7 +30,7 @@ public class FireControllerTest {
 	private MedicalRecordService medicalRecordService;
 	
 	@Test
-	private void testFire() throws Exception {
+	public void testFire() throws Exception {
 		mockMvc.perform(get("/fire?address=951 LoneTree Rd")).andExpect(status().isOk());
 	}
 

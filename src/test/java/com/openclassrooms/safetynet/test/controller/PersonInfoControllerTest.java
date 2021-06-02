@@ -11,8 +11,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.openclassrooms.safetynet.DTO.PersonInfoDTO;
 import com.openclassrooms.safetynet.controller.PersonInfoController;
-import com.openclassrooms.safetynet.model.MedicalRecord;
-import com.openclassrooms.safetynet.model.Person;
 import com.openclassrooms.safetynet.service.FirestationService;
 import com.openclassrooms.safetynet.service.MedicalRecordService;
 import com.openclassrooms.safetynet.service.PersonService;
@@ -37,21 +35,17 @@ public class PersonInfoControllerTest {
 	private AgeCalculator ageCalculator;
 
 	@Test
-	private void testGetPersonInfo() throws Exception {
+	public void testGetPersonInfo() throws Exception {
 		PersonInfoDTO personInfoDTO = new PersonInfoDTO();
-		Person person = new Person();
-		MedicalRecord medicalRecord = new MedicalRecord();
-		person.setFirstName("Test");
-		person.setLastName("Name");
-		medicalRecord.setBirthdate("03/03/1980");
-		personInfoDTO.setFirstName(person.getFirstName());
-		personInfoDTO.setLastName(person.getLastName());
-		personInfoDTO.setAge(ageCalculator.calculateAge(medicalRecord.getBirthdate()));
+		personInfoDTO.setFirstName("Test");
+		personInfoDTO.setLastName("Name");
+		personInfoDTO.setAddress("TestAddress");
+		personInfoDTO.setAge(8);
 		mockMvc.perform(get("/personInfo?firstName=Test&lastName=Name")).andExpect(status().isOk());
 	}
 
 	@Test
-	private void testChildAlert() throws Exception {
+	public void testChildAlert() throws Exception {
 		PersonInfoDTO personInfoDTO = new PersonInfoDTO();
 		personInfoDTO.setAddress("TestAddress");
 		personInfoDTO.setAge(8);

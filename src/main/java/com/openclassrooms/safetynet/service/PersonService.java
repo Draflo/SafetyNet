@@ -55,7 +55,7 @@ public class PersonService {
 		return emails.orElseThrow(()->new NoSuchElementException("No mail found for this city"));
 	}
 
-	public Iterable<Person> list() {
+	public Iterable<Person> findAll() {
 		return personRepository.findAll();
 	}
 
