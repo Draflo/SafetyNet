@@ -30,14 +30,16 @@ public class MedicalRecordService {
 		return medicalRecordRepository.findAll();
 	}
 	
-	public MedicalRecord findByFirstNameAndLastName(String firstName, String lastName) throws Exception {
+	public MedicalRecord findByFirstNameAndLastName(String firstName, String lastName) {
 		Optional<MedicalRecord> medicalRecord = medicalRecordRepository.findByFirstNameAndLastName(firstName, lastName);
 		
 		return medicalRecord.orElseThrow(()->new NoSuchElementException("Person doesn't exist"));
 	}
 	
 	public Iterable<MedicalRecord> findByAddress(String address) {
-		return medicalRecordRepository.findPersonByAddress(address);
+		Optional<Iterable<MedicalRecord>> medicalRecord = medicalRecordRepository.findPersonByAddress(address);
+		
+		return medicalRecord.orElseThrow(()-> new NoSuchElementException("No one at this address"));
 	}
 
 	@Transactional

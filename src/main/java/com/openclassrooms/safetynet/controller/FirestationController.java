@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,7 +54,7 @@ public class FirestationController {
 	 */
 	@GetMapping("/firestations")
 	public Iterable<Firestation> list() {
-		return firestationService.list();
+		return firestationService.getAll();
 
 	}
 
@@ -91,11 +92,13 @@ public class FirestationController {
 			child++;
 		else
 			adult++;
-		personByFirestation.setNumberChild(child);
-		personByFirestation.setNumberAdult(adult);
 		personByFirestations.add(personByFirestation);
 		}
 		}
+		PersonByFirestation personByFirestation = new PersonByFirestation();
+		personByFirestation.setNumberChild(child);
+		personByFirestation.setNumberAdult(adult);
+		personByFirestations.add(personByFirestation);
 		return personByFirestations;
 	
 		}
@@ -107,8 +110,9 @@ public class FirestationController {
 	 * @return The firestation object saved
 	 */
 	@PostMapping("/firestation")
-	public Firestation createFirestation(@RequestBody Firestation firestation) {
-		return firestationService.saveFirestation(firestation);
+	public ResponseEntity<Firestation> createFirestation(@RequestBody Firestation firestation) {
+		Firestation saveFirestation = firestationService.saveFirestation(firestation);
+		return ResponseEntity.created(null).body(saveFirestation);
 	}
 
 	/**

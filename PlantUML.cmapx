@@ -1,0 +1,21 @@
+<map id="PlantUML_map" name="PlantUML_map">
+<area shape="rect" id="id1" href="java:com.openclassrooms.safetynet.model.converter.ListStringConverter" title="java:com.openclassrooms.safetynet.model.converter.ListStringConverter" alt="" coords="843,2033,1124,2122"/>
+<area shape="rect" id="id2" href="java:com.openclassrooms.safetynet.repository.FirestationRepository" title="java:com.openclassrooms.safetynet.repository.FirestationRepository" alt="" coords="2585,1172,2880,1275"/>
+<area shape="rect" id="id3" href="java:com.openclassrooms.safetynet.repository.MedicalRecordRepository" title="java:com.openclassrooms.safetynet.repository.MedicalRecordRepository" alt="" coords="981,1179,1440,1268"/>
+<area shape="rect" id="id4" href="java:com.openclassrooms.safetynet.model.Firestation" title="java:com.openclassrooms.safetynet.model.Firestation" alt="" coords="2171,1609,2362,1851"/>
+<area shape="rect" id="id5" href="java:com.openclassrooms.safetynet.model.LoadDataModel" title="java:com.openclassrooms.safetynet.model.LoadDataModel" alt="" coords="1763,1144,2092,1303"/>
+<area shape="rect" id="id6" href="java:com.openclassrooms.safetynet.repository.PersonRepository" title="java:com.openclassrooms.safetynet.repository.PersonRepository" alt="" coords="2128,1158,2550,1289"/>
+<area shape="rect" id="id7" href="java:com.openclassrooms.safetynet.controller.PersonsController" title="java:com.openclassrooms.safetynet.controller.PersonsController" alt="" coords="2915,1137,3246,1310"/>
+<area shape="rect" id="id8" href="java:com.openclassrooms.safetynet.controller.MedicalRecordsController" title="java:com.openclassrooms.safetynet.controller.MedicalRecordsController" alt="" coords="987,159,1435,303"/>
+<area shape="rect" id="id9" href="java:com.openclassrooms.safetynet.controller.PersonInfoController" title="java:com.openclassrooms.safetynet.controller.PersonInfoController" alt="" coords="2804,166,3312,297"/>
+<area shape="rect" id="id10" href="java:com.openclassrooms.safetynet.model.Person" title="java:com.openclassrooms.safetynet.model.Person" alt="" coords="1869,1506,2072,1955"/>
+<area shape="rect" id="id11" href="java:com.openclassrooms.safetynet.controller.FireController" title="java:com.openclassrooms.safetynet.controller.FireController" alt="" coords="7,159,665,303"/>
+<area shape="rect" id="id12" href="java:com.openclassrooms.safetynet.DTO.PersonByFirestation" title="java:com.openclassrooms.safetynet.DTO.PersonByFirestation" alt="" coords="217,534,454,941"/>
+<area shape="rect" id="id13" href="java:com.openclassrooms.safetynet.DTO.PersonInfoDTO" title="java:com.openclassrooms.safetynet.DTO.PersonInfoDTO" alt="" coords="1476,1020,1728,1427"/>
+<area shape="rect" id="id14" href="java:com.openclassrooms.safetynet.service.FirestationService" title="java:com.openclassrooms.safetynet.service.FirestationService" alt="" coords="2215,603,2600,872"/>
+<area shape="rect" id="id15" href="java:com.openclassrooms.safetynet.DTO.Fire" title="java:com.openclassrooms.safetynet.DTO.Fire" alt="" coords="700,7,952,456"/>
+<area shape="rect" id="id16" href="java:com.openclassrooms.safetynet.service.PersonService" title="java:com.openclassrooms.safetynet.service.PersonService" alt="" coords="2881,582,3266,893"/>
+<area shape="rect" id="id17" href="java:com.openclassrooms.safetynet.service.MedicalRecordService" title="java:com.openclassrooms.safetynet.service.MedicalRecordService" alt="" coords="986,603,1436,872"/>
+<area shape="rect" id="id18" href="java:com.openclassrooms.safetynet.controller.FirestationController" title="java:com.openclassrooms.safetynet.controller.FirestationController" alt="" coords="2063,117,2753,345"/>
+<area shape="rect" id="id19" href="java:com.openclassrooms.safetynet.model.MedicalRecord" title="java:com.openclassrooms.safetynet.model.MedicalRecord" alt="" coords="1108,1540,1738,1920"/>
+</map>

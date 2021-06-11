@@ -26,14 +26,14 @@ public class FirestationService {
 		return firestationRepository.findById(id);
 	}
 
-	public Iterable<Firestation> list() {
+	public Iterable<Firestation> getAll() {
 		return firestationRepository.findAll();
 	}
 	
-	public Firestation findByAddress(String address) throws Exception {
-		Optional<Firestation> firestation = firestationRepository.findFirstByAddress(address);
+	public Firestation findByAddress(String address) {
+		Optional<Firestation> firestation = firestationRepository.findByAddress(address);
 		
-		return firestation.orElseThrow(()->new NoSuchElementException("Person doesn't exist"));
+		return firestation.orElseThrow(()->new NoSuchElementException("No one at this address"));
 	}
 	
 	public Iterable<String> findByStation(int station) {

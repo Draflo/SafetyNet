@@ -14,10 +14,10 @@ import com.openclassrooms.safetynet.model.MedicalRecord;
 public interface FirestationRepository extends CrudRepository<Firestation, Long> {
 
 	@Modifying
-	@Query("delete from Firestation f where f.address=?1")
+	@Query("delete from Firestation f where f.address = :address")
 	void delete(String address);
 	
-	Optional<Firestation> findFirstByAddress(String address);
+	Optional<Firestation> findByAddress(String address);
 	
 	@Query(value = "select f.station from Firestation f where f.address = :address")
 	Iterable<Integer> findStationByAddress(String address);
