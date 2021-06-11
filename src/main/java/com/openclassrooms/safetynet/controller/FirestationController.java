@@ -54,7 +54,7 @@ public class FirestationController {
 	 */
 	@GetMapping("/firestations")
 	public Iterable<Firestation> list() {
-		return firestationService.list();
+		return firestationService.getAll();
 
 	}
 
@@ -92,11 +92,13 @@ public class FirestationController {
 			child++;
 		else
 			adult++;
-		personByFirestation.setNumberChild(child);
-		personByFirestation.setNumberAdult(adult);
 		personByFirestations.add(personByFirestation);
 		}
 		}
+		PersonByFirestation personByFirestation = new PersonByFirestation();
+		personByFirestation.setNumberChild(child);
+		personByFirestation.setNumberAdult(adult);
+		personByFirestations.add(personByFirestation);
 		return personByFirestations;
 	
 		}

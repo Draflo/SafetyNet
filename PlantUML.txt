@@ -1,13 +1,353 @@
 @startuml
-class User {
-.. Simple Getter ..
-+ getName()
-+ getAddress()
-.. Some setter ..
-+ setName()
-__ private data __
-int age
--- encrypted --
-String password
+class MedicalRecord [[java:com.openclassrooms.safetynet.model.MedicalRecord]] {
+	-id: Long
+	-firstName: String
+	-lastName: String
+	-birthdate: String
+	-medications: List<String>
+	-allergies: List<String>
+	+MedicalRecord()
+	+getId(): Long
+	+getFirstName(): String
+	+getLastName(): String
+	+getBirthdate(): String
+	+getMedications(): List<String>
+	+getAllergies(): List<String>
+	+setId(id: Long): void
+	+setFirstName(firstName: String): void
+	+setLastName(lastName: String): void
+	+setBirthdate(birthdate: String): void
+	+setMedications(medications: List<String>): void
+	+setAllergies(allergies: List<String>): void
+	+equals(o: Object): boolean
+	#canEqual(other: Object): boolean
+	+hashCode(): int
+	+toString(): String
+	+MedicalRecord(id: Long, firstName: String, lastName: String, birthdate: String, medications: List<String>, allergies: List<String>)
 }
+class Firestation [[java:com.openclassrooms.safetynet.model.Firestation]] {
+	-id: Long
+	-address: String
+	-station: Integer
+	+Firestation()
+	+getId(): Long
+	+getAddress(): String
+	+getStation(): Integer
+	+setId(id: Long): void
+	+setAddress(address: String): void
+	+setStation(station: Integer): void
+	+equals(o: Object): boolean
+	#canEqual(other: Object): boolean
+	+hashCode(): int
+	+toString(): String
+}
+class Person [[java:com.openclassrooms.safetynet.model.Person]] {
+	-id: Integer
+	-firstName: String
+	-lastName: String
+	-address: String
+	-city: String
+	-zip: Integer
+	-phone: String
+	-email: String
+	+Person()
+	+getId(): Integer
+	+getFirstName(): String
+	+getLastName(): String
+	+getAddress(): String
+	+getCity(): String
+	+getZip(): Integer
+	+getPhone(): String
+	+getEmail(): String
+	+setId(id: Integer): void
+	+setFirstName(firstName: String): void
+	+setLastName(lastName: String): void
+	+setAddress(address: String): void
+	+setCity(city: String): void
+	+setZip(zip: Integer): void
+	+setPhone(phone: String): void
+	+setEmail(email: String): void
+	+equals(o: Object): boolean
+	#canEqual(other: Object): boolean
+	+hashCode(): int
+	+toString(): String
+}
+class LoadDataModel [[java:com.openclassrooms.safetynet.model.LoadDataModel]] {
+	+LoadDataModel()
+	+setFirestations(firestations: List<Firestation>): void
+	+setPersons(persons: List<Person>): void
+	+setMedicalrecords(medicalrecords: List<MedicalRecord>): void
+	+equals(o: Object): boolean
+	#canEqual(other: Object): boolean
+	+hashCode(): int
+	+toString(): String
+}
+class ListStringConverter [[java:com.openclassrooms.safetynet.model.converter.ListStringConverter]] {
+	-{static} SEPARATOR: String
+	+convertToDatabaseColumn(list: List<String>): String
+	+convertToEntityAttribute(dbData: String): List<String>
+}
+interface "AttributeConverter<List<String>,String>" as AttributeConverter_List_String__String_ {
+}
+AttributeConverter_List_String__String_ <|.. ListStringConverter
+
+class PersonsController [[java:com.openclassrooms.safetynet.controller.PersonsController]] {
+	-personService: PersonService
+	+PersonsController(personService: PersonService)
+	+list(): Iterable<Person>
+	+getAllMailFromCity(city: String): Iterable<Person>
+	+getPhoneNumberFromStation(station: Integer): Iterable<Person>
+	+getPerson(id: Long): Person
+	+createPerson(person: Person): ResponseEntity<Person>
+	+deletePerson(lastName: String, firstName: String): void
+	+updatePerson(id: Long, person: Person): Person
+}
+class PersonInfoController [[java:com.openclassrooms.safetynet.controller.PersonInfoController]] {
+	-personService: PersonService
+	-medicalRecordService: MedicalRecordService
+	-ageCalculator: AgeCalculator
+	+PersonInfoController(personService: PersonService, medicalRecordService: MedicalRecordService)
+	+getPersonInfoDTO(firstName: String, lastName: String): PersonInfoDTO
+	+getChildAlert(address: String): Iterable<PersonInfoDTO>
+}
+class MedicalRecordsController [[java:com.openclassrooms.safetynet.controller.MedicalRecordsController]] {
+	-medicalRecordService: MedicalRecordService
+	+MedicalRecordsController(medicalRecordService: MedicalRecordService)
+	+list(): Iterable<MedicalRecord>
+	+getMedicalRecord(id: Long): MedicalRecord
+	+createMedicalRecord(medicalRecord: MedicalRecord): ResponseEntity<MedicalRecord>
+	+deleteMedicalRecord(lastName: String, firstName: String): void
+	+updateMedicalRecord(id: Long, medicalRecord: MedicalRecord): MedicalRecord
+}
+class FireController [[java:com.openclassrooms.safetynet.controller.FireController]] {
+	-personService: PersonService
+	-medicalRecordService: MedicalRecordService
+	-firestationService: FirestationService
+	-ageCalculator: AgeCalculator
+	+FireController(personService: PersonService, medicalRecordService: MedicalRecordService, firestationService: FirestationService)
+	+getFire(address: String): Iterable<Fire>
+	+getFlood(station: Integer): Iterable<Fire>
+}
+class FirestationController [[java:com.openclassrooms.safetynet.controller.FirestationController]] {
+	-firestationService: FirestationService
+	-personService: PersonService
+	-medicalRecordService: MedicalRecordService
+	-ageCalculator: AgeCalculator
+	+child: Integer
+	+adult: Integer
+	+FirestationController(firestationService: FirestationService, personService: PersonService, medicalRecordService: MedicalRecordService)
+	+list(): Iterable<Firestation>
+	+getFirestation(id: Long): Firestation
+	+getPersonByFirestation(station: Integer): Iterable<PersonByFirestation>
+	+createFirestation(firestation: Firestation): ResponseEntity<Firestation>
+	+deleteFirestation(address: String): void
+	+updateFirestation(id: Long, firestation: Firestation): Firestation
+}
+class PersonInfoDTO [[java:com.openclassrooms.safetynet.DTO.PersonInfoDTO]] {
+	-firstName: String
+	-lastName: String
+	-address: String
+	-email: String
+	-age: Integer
+	-medications: List<String>
+	-allergies: List<String>
+	+PersonInfoDTO()
+	+getFirstName(): String
+	+getLastName(): String
+	+getAddress(): String
+	+getEmail(): String
+	+getAge(): Integer
+	+getMedications(): List<String>
+	+getAllergies(): List<String>
+	+setFirstName(firstName: String): void
+	+setLastName(lastName: String): void
+	+setAddress(address: String): void
+	+setEmail(email: String): void
+	+setAge(age: Integer): void
+	+setMedications(medications: List<String>): void
+	+setAllergies(allergies: List<String>): void
+	+equals(o: Object): boolean
+	#canEqual(other: Object): boolean
+	+hashCode(): int
+	+toString(): String
+}
+class Fire [[java:com.openclassrooms.safetynet.DTO.Fire]] {
+	-firstName: String
+	-lastName: String
+	-address: String
+	-phone: String
+	-age: Integer
+	-firestation: Integer
+	-medications: List<String>
+	-allergies: List<String>
+	+Fire()
+	+getFirstName(): String
+	+getLastName(): String
+	+getAddress(): String
+	+getPhone(): String
+	+getAge(): Integer
+	+getFirestation(): Integer
+	+getMedications(): List<String>
+	+getAllergies(): List<String>
+	+setFirstName(firstName: String): void
+	+setLastName(lastName: String): void
+	+setAddress(address: String): void
+	+setPhone(phone: String): void
+	+setAge(age: Integer): void
+	+setFirestation(firestation: Integer): void
+	+setMedications(medications: List<String>): void
+	+setAllergies(allergies: List<String>): void
+	+equals(o: Object): boolean
+	#canEqual(other: Object): boolean
+	+hashCode(): int
+	+toString(): String
+}
+class PersonByFirestation [[java:com.openclassrooms.safetynet.DTO.PersonByFirestation]] {
+	-firstName: String
+	-lastName: String
+	-address: String
+	-phone: String
+	-age: Integer
+	-numberChild: Integer
+	-numberAdult: Integer
+	+PersonByFirestation()
+	+getFirstName(): String
+	+getLastName(): String
+	+getAddress(): String
+	+getPhone(): String
+	+getAge(): Integer
+	+getNumberChild(): Integer
+	+getNumberAdult(): Integer
+	+setFirstName(firstName: String): void
+	+setLastName(lastName: String): void
+	+setAddress(address: String): void
+	+setPhone(phone: String): void
+	+setAge(age: Integer): void
+	+setNumberChild(numberChild: Integer): void
+	+setNumberAdult(numberAdult: Integer): void
+	+equals(o: Object): boolean
+	#canEqual(other: Object): boolean
+	+hashCode(): int
+	+toString(): String
+}
+interface FirestationRepository [[java:com.openclassrooms.safetynet.repository.FirestationRepository]] {
+	delete(address: String): void
+	findFirstByAddress(address: String): Optional<Firestation>
+	findStationByAddress(address: String): Iterable<Integer>
+	findAddressesByStation(station: int): Iterable<String>
+}
+interface "CrudRepository<Firestation,Long>" as CrudRepository_Firestation_Long_ {
+}
+CrudRepository_Firestation_Long_ <|-- FirestationRepository
+interface MedicalRecordRepository [[java:com.openclassrooms.safetynet.repository.MedicalRecordRepository]] {
+	delete(lastName: String, firstName: String): void
+	findByFirstNameAndLastName(firstName: String, lastName: String): Optional<MedicalRecord>
+	findPersonByAddress(address: String): Iterable<MedicalRecord>
+}
+interface "CrudRepository<MedicalRecord,Long>" as CrudRepository_MedicalRecord_Long_ {
+}
+CrudRepository_MedicalRecord_Long_ <|-- MedicalRecordRepository
+interface PersonRepository [[java:com.openclassrooms.safetynet.repository.PersonRepository]] {
+	delete(lastName: String, firstName: String): void
+	findByFirstNameAndLastName(firstName: String, lastName: String): Optional<Person>
+	findMailFromCity(city: String): Optional<Iterable<Person>>
+	findPersonByAddress(address: String): Optional<Iterable<Person>>
+	findPhoneByStation(station: int): Optional<Iterable<Person>>
+	findPersonByStation(station: int): Optional<Iterable<Person>>
+}
+interface "CrudRepository<Person,Long>" as CrudRepository_Person_Long_ {
+}
+CrudRepository_Person_Long_ <|-- PersonRepository
+
+class MedicalRecordService [[java:com.openclassrooms.safetynet.service.MedicalRecordService]] {
+	-medicalRecordRepository: MedicalRecordRepository
+	+getMedicalRecords(id: Long): Optional<MedicalRecord>
+	+list(): Iterable<MedicalRecord>
+	+findByFirstNameAndLastName(firstName: String, lastName: String): MedicalRecord
+	+findByAddress(address: String): Iterable<MedicalRecord>
+	+deleteMedicalRecord(lastName: String, firstName: String): void
+	+save(medicalRecords: List<MedicalRecord>): Iterable<MedicalRecord>
+	+saveMedicalRecord(medicalRecord: MedicalRecord): MedicalRecord
+	+saveUpdated(medicalRecord: MedicalRecord): MedicalRecord
+	+getMedicalRecordRepository(): MedicalRecordRepository
+	+setMedicalRecordRepository(medicalRecordRepository: MedicalRecordRepository): void
+	+equals(o: Object): boolean
+	#canEqual(other: Object): boolean
+	+hashCode(): int
+	+toString(): String
+	+MedicalRecordService()
+}
+class FirestationService [[java:com.openclassrooms.safetynet.service.FirestationService]] {
+	-firestationRepository: FirestationRepository
+	+getFirestation(id: Long): Optional<Firestation>
+	+list(): Iterable<Firestation>
+	+findByAddress(address: String): Firestation
+	+findByStation(station: int): Iterable<String>
+	+deleteFirestation(address: String): void
+	+save(firestations: List<Firestation>): Iterable<Firestation>
+	+saveFirestation(firestation: Firestation): Firestation
+	+saveUpdated(firestation: Firestation): Firestation
+	+getFirestationRepository(): FirestationRepository
+	+setFirestationRepository(firestationRepository: FirestationRepository): void
+	+equals(o: Object): boolean
+	#canEqual(other: Object): boolean
+	+hashCode(): int
+	+toString(): String
+	+FirestationService()
+}
+class PersonService [[java:com.openclassrooms.safetynet.service.PersonService]] {
+	-personRepository: PersonRepository
+	+getPersons(id: Long): Optional<Person>
+	+findByFirstNameAndLastName(firstName: String, lastName: String): Person
+	+findByAddress(address: String): Iterable<Person>
+	+getPhoneByStation(station: int): Iterable<Person>
+	+getPersonByStation(station: int): Iterable<Person>
+	+getMailFromCity(city: String): Iterable<Person>
+	+findAll(): Iterable<Person>
+	+deletePerson(lastName: String, firstName: String): void
+	+save(persons: List<Person>): Iterable<Person>
+	+savePerson(person: Person): Person
+	+saveUpdated(person: Person): Person
+	+getPersonRepository(): PersonRepository
+	+setPersonRepository(personRepository: PersonRepository): void
+	+equals(o: Object): boolean
+	#canEqual(other: Object): boolean
+	+hashCode(): int
+	+toString(): String
+	+PersonService()
+}
+
+class Firestation {
+}
+LoadDataModel --> "*" Firestation : firestations
+class Person {
+}
+LoadDataModel --> "*" Person : persons
+class MedicalRecord {
+}
+LoadDataModel --> "*" MedicalRecord : medicalrecords
+class Firestation {
+}
+LoadDataModel --> "*" Firestation : getFirestations()
+class Person {
+}
+LoadDataModel --> "*" Person : getPersons()
+class MedicalRecord {
+}
+LoadDataModel --> "*" MedicalRecord : getMedicalrecords()
+
+PersonService <--  PersonsController : Call
+PersonService --> PersonRepository : Call
+PersonRepository --> Person : getPersons()
+MedicalRecord ..|> ListStringConverter : Uses
+MedicalRecordsController --> MedicalRecordService : Call
+MedicalRecordService --> MedicalRecordRepository : Call
+MedicalRecordRepository --> MedicalRecord : getMedicalRecords()
+FirestationController --> FirestationService : Call
+FirestationService --> FirestationRepository : Call
+FirestationRepository --> Firestation : getFirestations()
+PersonInfoController --> PersonService : Call
+PersonInfoController --> MedicalRecordService : Call
+PersonInfoDTO --> Person : getPersons()
+PersonInfoDTO --> MedicalRecord : getMedicalRecords
 @enduml

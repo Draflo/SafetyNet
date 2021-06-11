@@ -13,6 +13,7 @@ import lombok.Data;
 
 @Data
 @Entity
+@AllArgsConstructor
 @Table(name = "firestations")
 public class Firestation {
 	
