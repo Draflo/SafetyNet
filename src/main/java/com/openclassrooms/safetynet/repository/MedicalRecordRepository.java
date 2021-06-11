@@ -20,5 +20,5 @@ public interface MedicalRecordRepository extends CrudRepository<MedicalRecord, L
 	Optional<MedicalRecord> findByFirstNameAndLastName(String firstName, String lastName);
 	
 	@Query(value = "select p from Person p where p.address = :address")
-	Iterable<MedicalRecord> findPersonByAddress(String address);
+	Optional<Iterable<MedicalRecord>> findPersonByAddress(String address);
 }
