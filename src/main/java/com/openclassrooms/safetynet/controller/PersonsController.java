@@ -80,8 +80,8 @@ public class PersonsController {
 	 * @param id - The id of the person to delete
 	 */
 	@DeleteMapping("/person")
-	public void deletePerson(@RequestParam("lastName") String lastName, @RequestParam("firstName") String firstName) {
-		personService.deletePerson(lastName, firstName);
+	public void deletePerson(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName) {
+		personService.deletePerson(firstName, lastName);
 	}
 
 	/**

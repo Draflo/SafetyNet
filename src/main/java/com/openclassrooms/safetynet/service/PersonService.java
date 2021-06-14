@@ -60,8 +60,8 @@ public class PersonService {
 	}
 
 	@Transactional
-	public void deletePerson(final String lastName, final String firstName) {
-		personRepository.delete(lastName, firstName);
+	public void deletePerson(final String firstName, final String lastName) {
+		personRepository.delete(firstName, lastName);
 	}
 
 	public Iterable<Person> save(List<Person> persons) {

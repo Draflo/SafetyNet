@@ -82,12 +82,12 @@ public class FirestationServiceTest {
 		
 	}
 	
-//	@Test
-//	public void DeleteAFirestation() throws NoSuchElementException {
-//		when(firestationRepository.findByAddress("1509 Culver St")).thenReturn(Optional.of(firestationTest));
-//		firestationService.deleteFirestation("1509 Culver St");
-//		assertThrows(NoSuchElementException.class, () -> firestationService.findByAddress("1509 Culver St"));
-//	}
+	@Test
+	public void DeleteAFirestation() throws NoSuchElementException {
+		when(firestationRepository.findByAddress("1509 Culver St")).thenReturn(Optional.of(firestationTest));
+		firestationService.deleteFirestation("1509 Culver St");
+		verify(firestationRepository, times(1)).delete("1509 Culver St");
+	}
 	
 	@Test
 	public void FindByAddress() {

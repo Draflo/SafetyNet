@@ -14,8 +14,11 @@ import com.openclassrooms.safetynet.model.converter.ListStringConverter;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Entity
 @AllArgsConstructor
 @Table(name = "medicalrecords")

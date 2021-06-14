@@ -42,27 +42,11 @@ public class MedicalRecordServiceTest {
 
 	static {
 
-		MedicalRecord mrList1 = new MedicalRecord();
-		MedicalRecord mrList2 = new MedicalRecord();
-		MedicalRecord mrList3 = new MedicalRecord();
-
-		mrList1.setFirstName("John");
-		mrList2.setFirstName("Jacob");
-		mrList3.setFirstName("Tenley");
-
-		mrList.add(mrList1);
-		mrList.add(mrList2);
-		mrList.add(mrList3);
-
-//		mrList.add(new MedicalRecord(1L, "John", "Boyd", "03/06/1984",
-//                 new ArrayList<>("aznol:350mg", "hydrapermazol:100mg"),
-//                  new List<String> ("nillacilan")));
-//        mrList.add(new MedicalRecord(
-//                "Jacob", "Boyd", "03/06/1989", new String[] {
-//                        "pharmacol:5000mg", "terazine:10mg", "noznazol:250mg" },
-//                new String[] {}));
-//        mrList.add(new MedicalRecord("Tenley", "Boyd", "03/06/1989",
-//                new String[] {}, new String[] { "peanut" }));
+		mrList.add(new MedicalRecord(1L, "John", "Boyd", "03/06/1984", List.of("aznol:350mg", "hydrapermazol:100mg"),
+				List.of("nillacilan")));
+		mrList.add(new MedicalRecord(2L, "Jacob", "Boyd", "03/06/1989",
+				List.of("pharmacol:5000mg", "terazine:10mg", "noznazol:250mg"), null));
+		mrList.add(new MedicalRecord(3L, "Tenley", "Boyd", "03/06/1989", null, List.of("peanut")));
 	}
 
 	public static MedicalRecord mrTest = new MedicalRecord();
@@ -72,6 +56,8 @@ public class MedicalRecordServiceTest {
 		mrTest.setFirstName("John");
 		mrTest.setLastName("Boyd");
 		mrTest.setBirthdate("03/06/1984");
+		mrTest.setMedications(List.of("medication: 20mg", "medication2 : 5mg"));
+		mrTest.setAllergies(List.of("allergies"));
 
 	}
 
@@ -117,26 +103,26 @@ public class MedicalRecordServiceTest {
 		assertThat(medicalRecordCreated.getLastName()).isEqualTo("Boyd");
 
 	}
-	
+
 	@Test
 	public void UpdateAMedicalRecord() {
 		MedicalRecord medicalRecordToUpdate = mrTest;
 		medicalRecordToUpdate.setBirthdate("01/01/1980");
-		
+
 		when(medicalRecordRepository.save(medicalRecordToUpdate)).thenReturn(medicalRecordToUpdate);
 		MedicalRecord updatedMedicalRecord = medicalRecordService.saveUpdated(medicalRecordToUpdate);
-		
+
 		assertThat(updatedMedicalRecord.getFirstName()).isEqualTo(medicalRecordToUpdate.getFirstName());
 		assertThat(updatedMedicalRecord.getBirthdate()).isEqualTo(medicalRecordToUpdate.getBirthdate());
 	}
-	
-//	@Test
-//	public void DeleteAMedicalRecord() throws NoSuchElementException {
-//		when(medicalRecordRepository.findByFirstNameAndLastName("John", "Boyd")).thenReturn(Optional.of(mrTest));
-//		medicalRecordService.deleteMedicalRecord("John", "Boyd");
-//		assertThrows(NoSuchElementException.class, () -> medicalRecordService.findByFirstNameAndLastName("John", "Boyd"));
-//	}
-	
+
+	@Test
+	public void DeleteAMedicalRecord() throws NoSuchElementException {
+		when(medicalRecordRepository.findByFirstNameAndLastName("John", "Boyd")).thenReturn(Optional.of(mrTest));
+		medicalRecordService.deleteMedicalRecord("John", "Boyd");
+		verify(medicalRecordRepository, times(1)).delete("John", "Boyd");
+	}
+
 	@Test
 	public void FindByAddress() {
 		when(medicalRecordRepository.findPersonByAddress("TestAddress")).thenReturn(Optional.of(mrList));
