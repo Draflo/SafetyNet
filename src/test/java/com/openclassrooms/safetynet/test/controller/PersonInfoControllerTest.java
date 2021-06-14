@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.openclassrooms.safetynet.DTO.PersonInfoDTO;
 import com.openclassrooms.safetynet.controller.PersonInfoController;
+import com.openclassrooms.safetynet.model.MedicalRecord;
 import com.openclassrooms.safetynet.model.Person;
 import com.openclassrooms.safetynet.service.FirestationService;
 import com.openclassrooms.safetynet.service.MedicalRecordService;
@@ -33,7 +34,7 @@ public class PersonInfoControllerTest {
 
 	@MockBean
 	private MedicalRecordService medicalRecordService;
-	
+
 	@MockBean
 	private AgeCalculator ageCalculator;
 
@@ -41,16 +42,21 @@ public class PersonInfoControllerTest {
 	public void testGetPersonInfo() throws Exception {
 		PersonInfoDTO personInfoDTO = new PersonInfoDTO();
 		Person person = new Person();
+		MedicalRecord medicalRecord = new MedicalRecord();
+		medicalRecord.setFirstName("Test");
+		medicalRecord.setLastName("Name");
 		person.setFirstName("Test");
 		person.setLastName("Name");
 		personInfoDTO.setFirstName(person.getFirstName());
 		personInfoDTO.setLastName(person.getLastName());
 		personInfoDTO.setAddress("TestAddress");
 		personInfoDTO.setAge(8);
+		medicalRecord.setMedications(null);
+		medicalRecord.setAllergies(null);
 		when(personService.findByFirstNameAndLastName("Test", "Name")).thenReturn(person);
+		when(medicalRecordService.findByFirstNameAndLastName("Test", "Name")).thenReturn(medicalRecord);
 		mockMvc.perform(get("/personInfo?firstName=Test&lastName=Name")).andExpect(status().isOk());
-		// medicalrecord null
-		
+
 	}
 
 	@Test
