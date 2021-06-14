@@ -126,8 +126,8 @@ public class PersonServiceTest {
 	public void DeleteAPerson() throws NoSuchElementException {
 
 		when(personRepository.findByFirstNameAndLastName("Boyd", "John")).thenReturn(Optional.of(personTest));
-		personService.deletePerson("Boyd", "John");
-		assertThrows(NoSuchElementException.class, () -> personService.findByFirstNameAndLastName("John", "Boyd"));
+		personService.deletePerson("John", "Boyd");
+		verify(personRepository, times(1)).delete("John", "Boyd");
 	}
 
 	@Test

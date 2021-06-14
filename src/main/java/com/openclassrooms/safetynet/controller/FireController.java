@@ -57,9 +57,9 @@ public class FireController {
 	
 	@GetMapping("/flood")
 	public Iterable<Fire> getFlood(@RequestParam Integer station) throws Exception {
-		Iterable<String> firestation = firestationService.findByStation(station);
+		Iterable<String> address = firestationService.findByStation(station);
 		List<Fire> flood = new ArrayList<>();
-		for (String string : firestation) {
+		for (String string : address) {
 		Iterable<Person> persons = personService.findByAddress(string);
 		for (Person person : persons) {
 			Fire floodperson = new Fire();

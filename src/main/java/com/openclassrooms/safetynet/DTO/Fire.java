@@ -2,9 +2,13 @@ package com.openclassrooms.safetynet.DTO;
 
 import java.util.List;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
 public class Fire {
 
 	private String firstName;
