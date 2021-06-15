@@ -94,6 +94,26 @@ public class PersonServiceTest {
 	public void TryingToFindAPersonNotRegisteredGetNoSuchElementException() throws NoSuchElementException {
 		assertThrows(NoSuchElementException.class, () -> personService.findByFirstNameAndLastName("I don't", "Exist"));
 	}
+	
+	@Test
+	public void TryingToFindPersonAtNonExistingAddressGetNoSuchElementException() throws NoSuchElementException {
+		assertThrows(NoSuchElementException.class, () -> personService.findByAddress("I don't exist"));
+	}
+	
+	@Test
+	public void TryingToFindAPhoneAtNonExistingStationGetNoSuchElementException() throws NoSuchElementException {
+		assertThrows(NoSuchElementException.class, () -> personService.getPhoneByStation(8));
+	}
+	
+	@Test
+	public void TryingToFindPersonsAtNonExistingStationGetNoSuchElementException() throws NoSuchElementException {
+		assertThrows(NoSuchElementException.class, () -> personService.getPersonByStation(8));
+	}
+	
+	@Test
+	public void TryingToFindMailsAtCityNotCoveredGetNoSuchElementException() throws NoSuchElementException {
+		assertThrows(NoSuchElementException.class, () -> personService.getMailFromCity("I don't exist"));
+	}
 
 	@Test
 	public void CreateANewPerson() {

@@ -14,8 +14,11 @@ import com.openclassrooms.safetynet.model.Person;
 import com.openclassrooms.safetynet.repository.MedicalRecordRepository;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Service
 public class MedicalRecordService {
 
