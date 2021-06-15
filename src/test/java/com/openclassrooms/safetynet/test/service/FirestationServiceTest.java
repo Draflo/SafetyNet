@@ -106,4 +106,9 @@ public class FirestationServiceTest {
 		
 		
 	}
+	
+	@Test
+	public void TryingToFindAFirestationAtNonExistingAddressGetNoSuchElementException() throws NoSuchElementException {
+		assertThrows(NoSuchElementException.class,() -> firestationService.findByAddress("I don't exist"));
+	}
 }

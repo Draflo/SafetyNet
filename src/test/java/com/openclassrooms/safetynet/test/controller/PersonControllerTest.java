@@ -1,10 +1,13 @@
 package com.openclassrooms.safetynet.test.controller;
 
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,9 +55,16 @@ public class PersonControllerTest {
 	 
 	@Test
 	public void testPutAPerson() throws Exception {
-		Person person = new Person();
-		person.setLastName("John");
+		Person person = new Person(1, "John", "Boyd", "1509 Culver St", "Culver", 97451, "841-874-6512", "jaboyd@email.com");
+		when(personService.getPersons(1L)).thenReturn(Optional.of(person));
 		mockMvc.perform(put("/person/1").contentType(MediaType.APPLICATION_JSON_VALUE).content(objectMapper.writeValueAsString(person))).andExpect(status().isOk());
+	}
+	
+	@Test
+	public void testGetAPersonByID() throws Exception {
+		Person person = new Person(1, "John", "Boyd", "1509 Culver St", "Culver", 97451, "841-874-6512", "jaboyd@email.com");
+		when(personService.getPersons(1L)).thenReturn(Optional.of(person));
+		mockMvc.perform(get("/person/1").contentType(MediaType.APPLICATION_JSON_VALUE).content(objectMapper.writeValueAsString(person))).andExpect(status().isOk());
 	}
 	
 	@Test

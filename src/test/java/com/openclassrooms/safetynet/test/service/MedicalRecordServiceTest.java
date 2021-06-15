@@ -84,8 +84,12 @@ public class MedicalRecordServiceTest {
 
 	@Test
 	public void TryingToFindAMedicalRecordNotRegisteredGetNoSuchElementException() throws NoSuchElementException {
-		assertThrows(NoSuchElementException.class,
-				() -> medicalRecordService.findByFirstNameAndLastName("I don't", "Exist"));
+		assertThrows(NoSuchElementException.class,() -> medicalRecordService.findByFirstNameAndLastName("I don't", "Exist"));
+	}
+	
+	@Test
+	public void TryingToFindMedicalRecordsAtNonExistingAddressGetNoSuchElementException() throws NoSuchElementException {
+		assertThrows(NoSuchElementException.class,() -> medicalRecordService.findByAddress("I don't exist"));
 	}
 
 	@Test

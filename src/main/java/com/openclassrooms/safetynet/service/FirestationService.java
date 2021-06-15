@@ -14,8 +14,11 @@ import com.openclassrooms.safetynet.model.MedicalRecord;
 import com.openclassrooms.safetynet.repository.FirestationRepository;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Service
 public class FirestationService {
 
