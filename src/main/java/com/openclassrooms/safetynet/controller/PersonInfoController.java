@@ -44,6 +44,7 @@ public class PersonInfoController {
 		return personInfoDTO;
 	}
 
+	
 	@GetMapping("/childAlert")
 	public Iterable<PersonInfoDTO> getChildAlert(@RequestParam String address) throws Exception {
 		Iterable<Person> persons = personService.findByAddress(address);
@@ -58,21 +59,24 @@ public class PersonInfoController {
 				child.setAge(ageCalculator.calculateAge(medicalrecord.getBirthdate()));
 				childAlert.add(child);
 			}
+		}
+		if (childAlert == null) {
+			return childAlert;
+			
+		} else {
 
-			if (childAlert == null)
-				return null;
-		}
-		for (Person person : persons) {
-			PersonInfoDTO adult = new PersonInfoDTO();
-			MedicalRecord medicalrecord = medicalRecordService.findByFirstNameAndLastName(person.getFirstName(),
-					person.getLastName());
-			if (ageCalculator.calculateAge(medicalrecord.getBirthdate()) >= 18) {
-				adult.setFirstName(person.getFirstName());
-				adult.setLastName(person.getLastName());
-				childAlert.add(adult);
+			for (Person person : persons) {
+				PersonInfoDTO adult = new PersonInfoDTO();
+				MedicalRecord medicalrecord = medicalRecordService.findByFirstNameAndLastName(person.getFirstName(),
+						person.getLastName());
+				if (ageCalculator.calculateAge(medicalrecord.getBirthdate()) >= 18) {
+					adult.setFirstName(person.getFirstName());
+					adult.setLastName(person.getLastName());
+					childAlert.add(adult);
+				}
 			}
+			return childAlert;
 		}
-		return childAlert;
 
 	}
 }

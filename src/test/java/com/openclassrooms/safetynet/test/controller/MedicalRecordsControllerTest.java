@@ -1,10 +1,14 @@
 package com.openclassrooms.safetynet.test.controller;
 
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +42,9 @@ public class MedicalRecordsControllerTest {
 	@MockBean
 	private MedicalRecordService medicalRecordService;
 	
+	public static MedicalRecord mrJohn = new MedicalRecord(1L, "John", "Boyd", "03/06/1984",
+			List.of("aznol:350mg", "hydrapermazol:100mg"), List.of("nillacilan"));
+	
 	@Test
 	public void testGetAllMedicalRecords() throws Exception {
 		mockMvc.perform(get("/medicalRecords")).andExpect(status().isOk());
@@ -51,9 +58,13 @@ public class MedicalRecordsControllerTest {
 	}
 	@Test
 	public void testPutAMedicalRecord() throws Exception {
-		MedicalRecord medicalRecord = new MedicalRecord();
-		medicalRecord.setLastName("TestName");
-		mockMvc.perform(put("/medicalRecord/1").contentType(MediaType.APPLICATION_JSON_VALUE).content(objectMapper.writeValueAsString(medicalRecord))).andExpect(status().isOk());
+		when(medicalRecordService.getMedicalRecords(1L)).thenReturn(Optional.of(mrJohn));
+		mockMvc.perform(put("/medicalRecord/1").contentType(MediaType.APPLICATION_JSON_VALUE).content(objectMapper.writeValueAsString(mrJohn))).andExpect(status().isOk());
+	}
+	
+	@Test
+	public void testGetAMedicalRecordByID() throws Exception {
+		mockMvc.perform(get("/medicalRecord/1").contentType(MediaType.APPLICATION_JSON_VALUE).content(objectMapper.writeValueAsString(mrJohn))).andExpect(status().isOk());
 	}
 	
 	@Test
