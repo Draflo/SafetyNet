@@ -2,6 +2,7 @@ package com.openclassrooms.safetynet.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,7 +31,7 @@ public class PersonInfoController {
 	}
 
 	@GetMapping("/personInfo")
-	public PersonInfoDTO getPersonInfoDTO(@RequestParam String firstName, String lastName) throws Exception {
+	public PersonInfoDTO getPersonInfoDTO(@RequestParam String firstName, String lastName) throws NoSuchElementException {
 		Person person = personService.findByFirstNameAndLastName(firstName, lastName);
 		MedicalRecord medicalrecord = medicalRecordService.findByFirstNameAndLastName(firstName, lastName);
 		PersonInfoDTO personInfoDTO = new PersonInfoDTO();
@@ -46,7 +47,7 @@ public class PersonInfoController {
 
 	
 	@GetMapping("/childAlert")
-	public Iterable<PersonInfoDTO> getChildAlert(@RequestParam String address) throws Exception {
+	public Iterable<PersonInfoDTO> getChildAlert(@RequestParam String address) throws NoSuchElementException {
 		Iterable<Person> persons = personService.findByAddress(address);
 		List<PersonInfoDTO> childAlert = new ArrayList<>();
 		for (Person person : persons) {
@@ -60,7 +61,7 @@ public class PersonInfoController {
 				childAlert.add(child);
 			}
 		}
-		if (childAlert == null) {
+		if (childAlert.isEmpty()) {
 			return childAlert;
 			
 		} else {

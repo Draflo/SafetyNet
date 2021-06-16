@@ -24,7 +24,7 @@ import com.openclassrooms.safetynet.service.MedicalRecordService;
 import com.openclassrooms.safetynet.service.PersonService;
 
 @WebMvcTest(FirestationService.class)
-public class FirestationServiceTest {
+class FirestationServiceTest {
 	
 	@Autowired
 	private FirestationService firestationService;
@@ -48,7 +48,7 @@ public class FirestationServiceTest {
 	public static Firestation firestationTest = new Firestation(1L, "1509 Culver St", 3);
 	
 	@Test
-	public void GetAll() {
+	void GetAll() {
 		when(firestationRepository.findAll()).thenReturn(firestationList);
 		
 		Iterable<Firestation> foundlist = firestationService.getAll();
@@ -59,7 +59,7 @@ public class FirestationServiceTest {
 	}
 	
 	@Test
-	public void CreateANewFirestation() {
+	void CreateANewFirestation() {
 		Firestation stationToCreate = new Firestation(1L, "1509 Culver St", 3);
 		when(firestationRepository.save(stationToCreate)).thenReturn(stationToCreate);
 		
@@ -69,7 +69,7 @@ public class FirestationServiceTest {
 	}
 	
 	@Test
-	public void UpdateAFirestation() {
+	void UpdateAFirestation() {
 		Firestation stationToUpdate = firestationTest;
 		stationToUpdate.setAddress("Address Test");
 		stationToUpdate.setStation(5);
@@ -83,21 +83,21 @@ public class FirestationServiceTest {
 	}
 	
 	@Test
-	public void DeleteAFirestation() throws NoSuchElementException {
+	void DeleteAFirestation() throws NoSuchElementException {
 		when(firestationRepository.findByAddress("1509 Culver St")).thenReturn(Optional.of(firestationTest));
 		firestationService.deleteFirestation("1509 Culver St");
 		verify(firestationRepository, times(1)).delete("1509 Culver St");
 	}
 	
 	@Test
-	public void FindByAddress() {
+	void FindByAddress() {
 		when(firestationRepository.findByAddress("1509 Culver St")).thenReturn(Optional.of(firestationTest));
 		Firestation expectedFirestation = firestationService.findByAddress("1509 Culver St");
 		assertEquals(expectedFirestation, firestationTest);
 	}
 	
 	@Test
-	public void FindAddressesByStation() {
+	void FindAddressesByStation() {
 		List<String> addresses = new ArrayList<>();
 		addresses.add("TestAddress");
 		when(firestationRepository.findAddressesByStation(3)).thenReturn(addresses);
@@ -108,7 +108,7 @@ public class FirestationServiceTest {
 	}
 	
 	@Test
-	public void TryingToFindAFirestationAtNonExistingAddressGetNoSuchElementException() throws NoSuchElementException {
+	void TryingToFindAFirestationAtNonExistingAddressGetNoSuchElementException() throws NoSuchElementException {
 		assertThrows(NoSuchElementException.class,() -> firestationService.findByAddress("I don't exist"));
 	}
 }
