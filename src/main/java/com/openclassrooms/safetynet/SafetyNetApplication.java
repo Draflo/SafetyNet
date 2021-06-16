@@ -3,6 +3,8 @@ package com.openclassrooms.safetynet;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,13 +24,13 @@ public class SafetyNetApplication {
 		SpringApplication.run(SafetyNetApplication.class, args);
 	}
 
-	
+	private static final Logger logger = LogManager.getLogger();
 	
 	@Bean
 	CommandLineRunner runner(FirestationService firestationService, PersonService personService, MedicalRecordService
 			medicalRecordService) {
 		return args -> {
-			ObjectMapper mapper = new ObjectMapper();
+			var mapper = new ObjectMapper();
 			TypeReference<LoadDataModel> typeReference = new TypeReference<LoadDataModel>() {};
 			InputStream inputStream = TypeReference.class.getResourceAsStream("/data.json");
 			try {
@@ -36,9 +38,9 @@ public class SafetyNetApplication {
 				personService.save(loadDataModel.getPersons());
 				firestationService.save(loadDataModel.getFirestations());
 				medicalRecordService.save(loadDataModel.getMedicalrecords());
-				System.out.println("Users Saved !");
+				logger.info("Users Saved !");
 			} catch (IOException e) {
-				System.out.println("Unable to save users: " + e.getMessage());
+				logger.error("Unable to save users: " + e.getMessage());
 			}
 		};
 	}

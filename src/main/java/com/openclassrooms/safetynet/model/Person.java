@@ -7,7 +7,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,5 +27,8 @@ public class Person {
 	private String phone;
 	private String email;
 	
+	/**
+	 * Empty class constructor
+	 */
 	public Person() {}
 }

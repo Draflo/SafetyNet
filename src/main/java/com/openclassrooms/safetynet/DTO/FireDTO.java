@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Fire {
+public class FireDTO {
 
 	private String firstName;
 	private String lastName;
@@ -18,6 +18,9 @@ public class Fire {
 	private List<String> medications;
 	private List<String> allergies;
 
-	public Fire() {
+	/**
+	 * Empty class constructor
+	 */
+	public FireDTO() {
 	}
 }

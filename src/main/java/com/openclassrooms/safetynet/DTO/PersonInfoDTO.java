@@ -17,6 +17,9 @@ public class PersonInfoDTO {
 	private List<String> medications;
 	private List<String> allergies;
 
+	/**
+	 * Empty class constructor
+	 */
 	public PersonInfoDTO() {
 	}
 }

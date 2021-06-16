@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter 
 @Setter 
-public class PersonByFirestation {
+public class PersonByFirestationDTO {
 
 	private String firstName;
 	private String lastName;
@@ -15,7 +15,9 @@ public class PersonByFirestation {
 	private Integer numberChild;
 	private Integer numberAdult;
 
-	
-	public PersonByFirestation() {}
+	/**
+	 * Empty class constructor
+	 */
+	public PersonByFirestationDTO() {}
 
 }
