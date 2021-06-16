@@ -25,7 +25,7 @@ import com.openclassrooms.safetynet.service.PersonService;
 import com.openclassrooms.safetynet.util.AgeCalculator;
 
 @WebMvcTest(controllers = FireController.class)
-public class FireControllerTest {
+class FireControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -79,17 +79,17 @@ public class FireControllerTest {
 	}
 
 	@Test
-	public void testFire() throws Exception {
+	void testFire() throws Exception {
 		mockMvc.perform(get("/fire?address=951 LoneTree Rd")).andExpect(status().isOk());
 	}
 
 	@Test
-	public void testFlood() throws Exception {
+	void testFlood() throws Exception {
 		mockMvc.perform(get("/flood?station=3")).andExpect(status().isOk());
 	}
 
 	@Test
-	public void GetAllPersonsByStationAdress() throws Exception {
+	void GetAllPersonsByStationAdress() throws Exception {
 		when(personService.findByAddress("1509 Culver St")).thenReturn(personList);
 		when(firestationService.findByAddress("1509 Culver St")).thenReturn(firestationTest);
 		when(medicalRecordService.findByFirstNameAndLastName("John", "Boyd")).thenReturn(mrJohn);
@@ -103,7 +103,7 @@ public class FireControllerTest {
 	}
 
 	@Test
-	public void GetAllPersonsByStationNumber() throws Exception {
+	void GetAllPersonsByStationNumber() throws Exception {
 		when(personService.findByAddress("1509 Culver St")).thenReturn(personList);
 		when(personService.findByAddress("834 Binoc Ave")).thenReturn(personList2);
 		when(firestationService.findByStation(3)).thenReturn(firestationList);

@@ -2,13 +2,14 @@ package com.openclassrooms.safetynet.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.openclassrooms.safetynet.DTO.Fire;
+import com.openclassrooms.safetynet.DTO.FireDTO;
 import com.openclassrooms.safetynet.model.Firestation;
 import com.openclassrooms.safetynet.model.MedicalRecord;
 import com.openclassrooms.safetynet.model.Person;
@@ -36,12 +37,12 @@ public class FireController {
 	}
 
 	@GetMapping("/fire")
-	public Iterable<Fire> getFire(@RequestParam String address) throws Exception {
+	public Iterable<FireDTO> getFire(@RequestParam String address) throws NoSuchElementException {
 		Firestation firestation = firestationService.findByAddress(address);
 		Iterable<Person> persons = personService.findByAddress(address);
-		List<Fire> fire = new ArrayList<>();
+		List<FireDTO> fire = new ArrayList<>();
 		for (Person person : persons) {
-			Fire fireperson = new Fire();
+			FireDTO fireperson = new FireDTO();
 			fireperson.setFirstName(person.getFirstName());
 			fireperson.setLastName(person.getLastName());
 			MedicalRecord medicalrecord = medicalRecordService.findByFirstNameAndLastName(person.getFirstName(), person.getLastName());
@@ -56,13 +57,13 @@ public class FireController {
 	}
 	
 	@GetMapping("/flood")
-	public Iterable<Fire> getFlood(@RequestParam Integer station) throws Exception {
+	public Iterable<FireDTO> getFlood(@RequestParam Integer station) throws NoSuchElementException {
 		Iterable<String> address = firestationService.findByStation(station);
-		List<Fire> flood = new ArrayList<>();
+		List<FireDTO> flood = new ArrayList<>();
 		for (String string : address) {
 		Iterable<Person> persons = personService.findByAddress(string);
 		for (Person person : persons) {
-			Fire floodperson = new Fire();
+			FireDTO floodperson = new FireDTO();
 			floodperson.setFirstName(person.getFirstName());
 			floodperson.setLastName(person.getLastName());
 			MedicalRecord medicalrecord = medicalRecordService.findByFirstNameAndLastName(person.getFirstName(), person.getLastName());

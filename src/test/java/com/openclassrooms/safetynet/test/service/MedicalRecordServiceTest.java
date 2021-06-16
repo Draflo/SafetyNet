@@ -24,7 +24,7 @@ import com.openclassrooms.safetynet.service.MedicalRecordService;
 import com.openclassrooms.safetynet.service.PersonService;
 
 @WebMvcTest(MedicalRecordService.class)
-public class MedicalRecordServiceTest {
+class MedicalRecordServiceTest {
 
 	@Autowired
 	private MedicalRecordService medicalRecordService;
@@ -62,7 +62,7 @@ public class MedicalRecordServiceTest {
 	}
 
 	@Test
-	public void GetAll() {
+	void GetAll() {
 		when(medicalRecordRepository.findAll()).thenReturn(mrList);
 
 		Iterable<MedicalRecord> foundList = medicalRecordService.list();
@@ -74,7 +74,7 @@ public class MedicalRecordServiceTest {
 	}
 
 	@Test
-	public void GetAMedicalRecordByFirstNameAndLastName() {
+	void GetAMedicalRecordByFirstNameAndLastName() {
 		when(medicalRecordRepository.findByFirstNameAndLastName("John", "Boyd")).thenReturn(Optional.of(mrTest));
 
 		MedicalRecord expectedMedicalRecord = medicalRecordService.findByFirstNameAndLastName("John", "Boyd");
@@ -83,17 +83,17 @@ public class MedicalRecordServiceTest {
 	}
 
 	@Test
-	public void TryingToFindAMedicalRecordNotRegisteredGetNoSuchElementException() throws NoSuchElementException {
+	void TryingToFindAMedicalRecordNotRegisteredGetNoSuchElementException() throws NoSuchElementException {
 		assertThrows(NoSuchElementException.class,() -> medicalRecordService.findByFirstNameAndLastName("I don't", "Exist"));
 	}
 	
 	@Test
-	public void TryingToFindMedicalRecordsAtNonExistingAddressGetNoSuchElementException() throws NoSuchElementException {
+	void TryingToFindMedicalRecordsAtNonExistingAddressGetNoSuchElementException() throws NoSuchElementException {
 		assertThrows(NoSuchElementException.class,() -> medicalRecordService.findByAddress("I don't exist"));
 	}
 
 	@Test
-	public void CreateANewMedicalRecord() {
+	void CreateANewMedicalRecord() {
 		MedicalRecord medicalRecordToCreate = new MedicalRecord();
 		medicalRecordToCreate.setFirstName("John");
 		medicalRecordToCreate.setLastName("Boyd");
@@ -109,7 +109,7 @@ public class MedicalRecordServiceTest {
 	}
 
 	@Test
-	public void UpdateAMedicalRecord() {
+	void UpdateAMedicalRecord() {
 		MedicalRecord medicalRecordToUpdate = mrTest;
 		medicalRecordToUpdate.setBirthdate("01/01/1980");
 
@@ -121,14 +121,14 @@ public class MedicalRecordServiceTest {
 	}
 
 	@Test
-	public void DeleteAMedicalRecord() throws NoSuchElementException {
+	void DeleteAMedicalRecord() throws NoSuchElementException {
 		when(medicalRecordRepository.findByFirstNameAndLastName("John", "Boyd")).thenReturn(Optional.of(mrTest));
 		medicalRecordService.deleteMedicalRecord("John", "Boyd");
 		verify(medicalRecordRepository, times(1)).delete("John", "Boyd");
 	}
 
 	@Test
-	public void FindByAddress() {
+	void FindByAddress() {
 		when(medicalRecordRepository.findPersonByAddress("TestAddress")).thenReturn(Optional.of(mrList));
 		Iterable<MedicalRecord> expectedMedicalRecords = medicalRecordService.findByAddress("TestAddress");
 		assertEquals(expectedMedicalRecords, mrList);

@@ -21,7 +21,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.openclassrooms.safetynet.DTO.PersonByFirestation;
+import com.openclassrooms.safetynet.DTO.PersonByFirestationDTO;
 import com.openclassrooms.safetynet.controller.FirestationController;
 import com.openclassrooms.safetynet.model.Firestation;
 import com.openclassrooms.safetynet.model.MedicalRecord;
@@ -32,7 +32,7 @@ import com.openclassrooms.safetynet.service.PersonService;
 import com.openclassrooms.safetynet.util.AgeCalculator;
 
 @WebMvcTest(controllers = FirestationController.class)
-public class FirestationControllerTest {
+class FirestationControllerTest {
 	
 	@Autowired
 	private MockMvc mockMvc;
@@ -87,41 +87,41 @@ public class FirestationControllerTest {
 	}
 	
 	@Test
-	public void testGetAllFirestations() throws Exception {
+	void testGetAllFirestations() throws Exception {
 		mockMvc.perform(get("/firestations")).andExpect(status().isOk());
 	}
 	
 	@Test
-	public void testGetAFirestationByID() throws Exception {
+	void testGetAFirestationByID() throws Exception {
 		Firestation firestation = new Firestation(1L, "1509 Culver St", 3);
 		when(firestationService.getFirestation(1L)).thenReturn(Optional.of(firestation));
 		mockMvc.perform(get("/firestation/1")).andExpect(status().isOk());
 	}
 	
 	@Test
-	public void testPostAFirestation() throws Exception {
+	void testPostAFirestation() throws Exception {
 		Firestation firestation = new Firestation();
 		firestation.setAddress("TestAddress");
 		mockMvc.perform(post("/firestation").contentType(MediaType.APPLICATION_JSON_VALUE).content(objectMapper.writeValueAsString(firestation))).andExpect(status().isCreated());
 	}
 	 
 	@Test
-	public void testPutAFirestation() throws Exception {
+	void testPutAFirestation() throws Exception {
 		Firestation firestation = new Firestation(1L, "1509 Culver St", 3);
 		when(firestationService.getFirestation(1L)).thenReturn(Optional.of(firestation));
 		mockMvc.perform(put("/firestation/1").contentType(MediaType.APPLICATION_JSON_VALUE).content(objectMapper.writeValueAsString(firestation))).andExpect(status().isOk());
 	}
 	
 	@Test
-	public void testDeleteAFirestation() throws Exception {
+	void testDeleteAFirestation() throws Exception {
 		Firestation firestation = new Firestation();
 		firestation.setAddress("WillBeDeleted");
 		mockMvc.perform(delete("/firestation?address=WillBeDeleted").contentType(MediaType.APPLICATION_JSON_VALUE).content(objectMapper.writeValueAsString(firestation))).andExpect(status().isOk());
 	}
 	
 	@Test
-	public void testGetAllPersonsByStation() throws Exception {
-		PersonByFirestation personByFirestation = new PersonByFirestation();
+	void testGetAllPersonsByStation() throws Exception {
+		PersonByFirestationDTO personByFirestation = new PersonByFirestationDTO();
 		personByFirestation.setNumberAdult(5);
 		personByFirestation.setNumberChild(1);
 		mockMvc.perform(get("/firestation?station=1")).andExpect(status().isOk());
@@ -129,7 +129,7 @@ public class FirestationControllerTest {
 	}
 	
 	@Test
-	public void GetAllPersonsByStationNumber() throws Exception {
+	void GetAllPersonsByStationNumber() throws Exception {
 		when(personService.findByAddress("1509 Culver St")).thenReturn(personList);
 		when(personService.findByAddress("834 Binoc Ave")).thenReturn(personList2);
 		when(firestationService.findByStation(3)).thenReturn(firestationList);

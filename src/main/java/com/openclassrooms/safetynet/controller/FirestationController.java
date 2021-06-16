@@ -2,6 +2,7 @@ package com.openclassrooms.safetynet.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.openclassrooms.safetynet.DTO.Fire;
-import com.openclassrooms.safetynet.DTO.PersonByFirestation;
+import com.openclassrooms.safetynet.DTO.PersonByFirestationDTO;
 import com.openclassrooms.safetynet.model.Firestation;
 import com.openclassrooms.safetynet.model.MedicalRecord;
 import com.openclassrooms.safetynet.model.Person;
@@ -44,8 +44,8 @@ public class FirestationController {
 		this.personService = personService;
 	}
 
-	public Integer child = 0;
-	public Integer adult = 0;
+	private Integer child = 0;
+	private Integer adult = 0;
 
 	/**
 	 * Read - Get all firestations
@@ -75,19 +75,19 @@ public class FirestationController {
 	}
 
 	@GetMapping("/firestation")
-	public Iterable<PersonByFirestation> getPersonByFirestation(@RequestParam Integer station) throws Exception {
+	public Iterable<PersonByFirestationDTO> getPersonByFirestation(@RequestParam Integer station) throws NoSuchElementException {
 		Iterable<String> firestation = firestationService.findByStation(station);
-		List<PersonByFirestation> personByFirestations = new ArrayList<>();
+		List<PersonByFirestationDTO> personByFirestations = new ArrayList<>();
 		for (String string : firestation) {
 		Iterable<Person> persons = personService.findByAddress(string);
 		for (Person person : persons) {
-			PersonByFirestation personByFirestation = new PersonByFirestation();
+			PersonByFirestationDTO personByFirestation = new PersonByFirestationDTO();
 			personByFirestation.setFirstName(person.getFirstName());
 			personByFirestation.setLastName(person.getLastName());
 			personByFirestation.setAddress(person.getAddress());
 			personByFirestation.setPhone(person.getPhone());
 			MedicalRecord medicalrecord = medicalRecordService.findByFirstNameAndLastName(person.getFirstName(), person.getLastName());
-			personByFirestation.setAge(ageCalculator.calculateAge(((MedicalRecord) medicalrecord).getBirthdate()));
+			personByFirestation.setAge(ageCalculator.calculateAge((medicalrecord).getBirthdate()));
 		if (personByFirestation.getAge() < 18)
 			child++;
 		else
@@ -95,7 +95,7 @@ public class FirestationController {
 		personByFirestations.add(personByFirestation);
 		}
 		}
-		PersonByFirestation personByFirestation = new PersonByFirestation();
+		PersonByFirestationDTO personByFirestation = new PersonByFirestationDTO();
 		personByFirestation.setNumberChild(child);
 		personByFirestation.setNumberAdult(adult);
 		personByFirestations.add(personByFirestation);

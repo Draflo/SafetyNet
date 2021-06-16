@@ -25,9 +25,8 @@ import com.openclassrooms.safetynet.service.MedicalRecordService;
 import com.openclassrooms.safetynet.service.PersonService;
 
 @WebMvcTest(PersonService.class)
-public class PersonServiceTest {
-	// Inits mocks injects mocks
-	// Autowired
+class PersonServiceTest {
+
 	@Autowired
 	private PersonService personService;
 
@@ -68,7 +67,7 @@ public class PersonServiceTest {
 	}
 
 	@Test
-	public void GetAll() {
+	void GetAll() {
 		when(personRepository.findAll()).thenReturn(personList);
 
 		Iterable<Person> foundList = personService.findAll();
@@ -81,7 +80,7 @@ public class PersonServiceTest {
 	}
 
 	@Test
-	public void GetAPersonByFirstNameAndLastName() {
+	void GetAPersonByFirstNameAndLastName() {
 		when(personRepository.findByFirstNameAndLastName("John", "Boyd")).thenReturn(Optional.of(personTest));
 
 		Person expected = personService.findByFirstNameAndLastName("John", "Boyd");
@@ -91,32 +90,32 @@ public class PersonServiceTest {
 	}
 
 	@Test
-	public void TryingToFindAPersonNotRegisteredGetNoSuchElementException() throws NoSuchElementException {
+	void TryingToFindAPersonNotRegisteredGetNoSuchElementException() throws NoSuchElementException {
 		assertThrows(NoSuchElementException.class, () -> personService.findByFirstNameAndLastName("I don't", "Exist"));
 	}
 	
 	@Test
-	public void TryingToFindPersonAtNonExistingAddressGetNoSuchElementException() throws NoSuchElementException {
+	void TryingToFindPersonAtNonExistingAddressGetNoSuchElementException() throws NoSuchElementException {
 		assertThrows(NoSuchElementException.class, () -> personService.findByAddress("I don't exist"));
 	}
 	
 	@Test
-	public void TryingToFindAPhoneAtNonExistingStationGetNoSuchElementException() throws NoSuchElementException {
+	void TryingToFindAPhoneAtNonExistingStationGetNoSuchElementException() throws NoSuchElementException {
 		assertThrows(NoSuchElementException.class, () -> personService.getPhoneByStation(8));
 	}
 	
 	@Test
-	public void TryingToFindPersonsAtNonExistingStationGetNoSuchElementException() throws NoSuchElementException {
+	void TryingToFindPersonsAtNonExistingStationGetNoSuchElementException() throws NoSuchElementException {
 		assertThrows(NoSuchElementException.class, () -> personService.getPersonByStation(8));
 	}
 	
 	@Test
-	public void TryingToFindMailsAtCityNotCoveredGetNoSuchElementException() throws NoSuchElementException {
+	void TryingToFindMailsAtCityNotCoveredGetNoSuchElementException() throws NoSuchElementException {
 		assertThrows(NoSuchElementException.class, () -> personService.getMailFromCity("I don't exist"));
 	}
 
 	@Test
-	public void CreateANewPerson() {
+	void CreateANewPerson() {
 		Person personToCreate = new Person(2, "Jacob", "Boyd", "1509 Culver St", "Culver", 97451, "841-874-6513",
 				"drk@email.com");
 		when(personRepository.save(personToCreate)).thenReturn(personToCreate);
@@ -129,7 +128,7 @@ public class PersonServiceTest {
 	}
 
 	@Test
-	public void UpdateAPerson() {
+	void UpdateAPerson() {
 		Person personToUpdate = personTest;
 		personToUpdate.setPhone("0505050505");
 		personToUpdate.setEmail("updated.mail@mail.com");
@@ -143,7 +142,7 @@ public class PersonServiceTest {
 	}
 
 	@Test
-	public void DeleteAPerson() throws NoSuchElementException {
+	void DeleteAPerson() throws NoSuchElementException {
 
 		when(personRepository.findByFirstNameAndLastName("Boyd", "John")).thenReturn(Optional.of(personTest));
 		personService.deletePerson("John", "Boyd");
@@ -151,36 +150,31 @@ public class PersonServiceTest {
 	}
 
 	@Test
-	public void FindPersonByAddress() {
+	void FindPersonByAddress() {
 		when(personRepository.findPersonByAddress("1509 Culver St")).thenReturn(Optional.of(personList));
 		Iterable<Person> expectedPersons = personService.findByAddress("1509 Culver St");
 		assertEquals(expectedPersons, personList);
 	}
 
 	@Test
-	public void FindPersonByStation() {
+	void FindPersonByStation() {
 		when(personRepository.findPersonByStation(3)).thenReturn(Optional.of(personList));
 		Iterable<Person> expectedPersons = personService.getPersonByStation(3);
 		assertEquals(expectedPersons, personList);
 	}
 
 	@Test
-	public void FindPhoneByStation() {
+	void FindPhoneByStation() {
 		when(personRepository.findPhoneByStation(3)).thenReturn(Optional.of(personList));
 		Iterable<Person> expectedPersons = personService.getPhoneByStation(3);
 		assertEquals(expectedPersons, personList);
 	}
 
 	@Test
-	public void FindMailByCity() {
+	void FindMailByCity() {
 		when(personRepository.findMailFromCity("Culver")).thenReturn(Optional.of(personList));
 		Iterable<Person> expectedPersons = personService.getMailFromCity("Culver");
 		assertEquals(expectedPersons, personList);
 	}
-	// verifier que repository a bien été appelé
-	// Mockito.verify(PersonRepository.Mockito.ones)
 
-	// Vérifier que la personne qui a été appelé est bien la bonne
-
-	// Vérifier l'erreur NoSuchElementException
 }

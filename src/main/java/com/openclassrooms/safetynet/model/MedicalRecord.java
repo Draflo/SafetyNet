@@ -13,7 +13,6 @@ import javax.persistence.Table;
 import com.openclassrooms.safetynet.model.converter.ListStringConverter;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -46,6 +45,9 @@ public class MedicalRecord {
 	@Convert(converter = ListStringConverter.class)
 	private List<String> allergies;
 
+	/**
+	 * Empty class constructor
+	 */
 	public MedicalRecord() {
 	}
 

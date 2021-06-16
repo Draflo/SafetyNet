@@ -24,7 +24,7 @@ import com.openclassrooms.safetynet.service.MedicalRecordService;
 import com.openclassrooms.safetynet.service.PersonService;
 
 @WebMvcTest(controllers = PersonsController.class)
-public class PersonControllerTest {
+class PersonControllerTest {
 	
 	@Autowired
 	private MockMvc mockMvc;
@@ -42,33 +42,33 @@ public class PersonControllerTest {
 	private MedicalRecordService medicalRecordService;
 	
 	@Test
-	public void testGetAllPersons() throws Exception {
+	void testGetAllPersons() throws Exception {
 		mockMvc.perform(get("/persons")).andExpect(status().isOk());
 	}
 	
 	@Test
-	public void testPostAPerson() throws Exception {
+	void testPostAPerson() throws Exception {
 		Person person = new Person();
 		person.setLastName("TestName");
 		mockMvc.perform(post("/person").contentType(MediaType.APPLICATION_JSON_VALUE).content(objectMapper.writeValueAsString(person))).andExpect(status().isCreated());
 	}
 	 
 	@Test
-	public void testPutAPerson() throws Exception {
+	void testPutAPerson() throws Exception {
 		Person person = new Person(1, "John", "Boyd", "1509 Culver St", "Culver", 97451, "841-874-6512", "jaboyd@email.com");
 		when(personService.getPersons(1L)).thenReturn(Optional.of(person));
 		mockMvc.perform(put("/person/1").contentType(MediaType.APPLICATION_JSON_VALUE).content(objectMapper.writeValueAsString(person))).andExpect(status().isOk());
 	}
 	
 	@Test
-	public void testGetAPersonByID() throws Exception {
+	void testGetAPersonByID() throws Exception {
 		Person person = new Person(1, "John", "Boyd", "1509 Culver St", "Culver", 97451, "841-874-6512", "jaboyd@email.com");
 		when(personService.getPersons(1L)).thenReturn(Optional.of(person));
 		mockMvc.perform(get("/person/1").contentType(MediaType.APPLICATION_JSON_VALUE).content(objectMapper.writeValueAsString(person))).andExpect(status().isOk());
 	}
 	
 	@Test
-	public void testDeleteAPerson() throws Exception {
+	void testDeleteAPerson() throws Exception {
 		Person person = new Person();
 		person.setFirstName("WillBe");
 		person.setLastName("Deleted");
@@ -76,12 +76,12 @@ public class PersonControllerTest {
 	}
 	
 	@Test
-	public void testGetAllMailAddressesByCity() throws Exception {
+	void testGetAllMailAddressesByCity() throws Exception {
 		mockMvc.perform(get("/communityEmail?city=Culver")).andExpect(status().isOk());
 	}
 	
 	@Test
-	public void testGetAllPhoneNumberByStation() throws Exception {
+	void testGetAllPhoneNumberByStation() throws Exception {
 		mockMvc.perform(get("/phoneAlert?firestation=1")).andExpect(status().isOk());
 	}
 

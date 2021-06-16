@@ -25,7 +25,7 @@ import com.openclassrooms.safetynet.service.MedicalRecordService;
 import com.openclassrooms.safetynet.service.PersonService;
 
 @WebMvcTest(controllers = MedicalRecordsController.class)
-public class MedicalRecordsControllerTest {
+class MedicalRecordsControllerTest {
 	
 	@Autowired
 	private MockMvc mockMvc;
@@ -46,29 +46,29 @@ public class MedicalRecordsControllerTest {
 			List.of("aznol:350mg", "hydrapermazol:100mg"), List.of("nillacilan"));
 	
 	@Test
-	public void testGetAllMedicalRecords() throws Exception {
+	void testGetAllMedicalRecords() throws Exception {
 		mockMvc.perform(get("/medicalRecords")).andExpect(status().isOk());
 	}
 	
 	@Test
-	public void testPostAMedicalRecord() throws Exception {
+	void testPostAMedicalRecord() throws Exception {
 		MedicalRecord medicalRecord = new MedicalRecord();
 		medicalRecord.setLastName("TestName");
 		mockMvc.perform(post("/medicalRecord").contentType(MediaType.APPLICATION_JSON_VALUE).content(objectMapper.writeValueAsString(medicalRecord))).andExpect(status().isCreated());
 	}
 	@Test
-	public void testPutAMedicalRecord() throws Exception {
+	void testPutAMedicalRecord() throws Exception {
 		when(medicalRecordService.getMedicalRecords(1L)).thenReturn(Optional.of(mrJohn));
 		mockMvc.perform(put("/medicalRecord/1").contentType(MediaType.APPLICATION_JSON_VALUE).content(objectMapper.writeValueAsString(mrJohn))).andExpect(status().isOk());
 	}
 	
 	@Test
-	public void testGetAMedicalRecordByID() throws Exception {
+	void testGetAMedicalRecordByID() throws Exception {
 		mockMvc.perform(get("/medicalRecord/1").contentType(MediaType.APPLICATION_JSON_VALUE).content(objectMapper.writeValueAsString(mrJohn))).andExpect(status().isOk());
 	}
 	
 	@Test
-	public void testDeleteAMedicalRecord() throws Exception {
+	void testDeleteAMedicalRecord() throws Exception {
 		MedicalRecord medicalRecord = new MedicalRecord();
 		medicalRecord.setLastName("Deleted");
 		medicalRecord.setFirstName("WillBe");

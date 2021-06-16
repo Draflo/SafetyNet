@@ -8,7 +8,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import com.openclassrooms.safetynet.model.Firestation;
-import com.openclassrooms.safetynet.model.MedicalRecord;
 
 @Repository
 public interface FirestationRepository extends CrudRepository<Firestation, Long> {

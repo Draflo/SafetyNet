@@ -6,10 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,10 +20,11 @@ public class Firestation {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
 	private String address;
-	
 	private Integer station;
 	
+	/**
+	 * Empty class constructor
+	 */
 	public Firestation() {}
 }
