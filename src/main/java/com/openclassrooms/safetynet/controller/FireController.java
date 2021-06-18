@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,6 +31,11 @@ public class FireController {
 	private FirestationService firestationService;
 	@Autowired
 	private AgeCalculator ageCalculator;
+	
+	@ExceptionHandler(Exception.class)
+	public void handleExeption() {}
+	
+	private static final Logger logger = LogManager.getLogger(FireController.class);
 
 	public FireController(PersonService personService, MedicalRecordService medicalRecordService,
 			FirestationService firestationService) {
@@ -38,6 +46,7 @@ public class FireController {
 
 	@GetMapping("/fire")
 	public Iterable<FireDTO> getFire(@RequestParam String address) throws NoSuchElementException {
+		logger.info("FireController (GET) : Getting all persons covered by a firestation at this address" + address);
 		Firestation firestation = firestationService.findByAddress(address);
 		Iterable<Person> persons = personService.findByAddress(address);
 		List<FireDTO> fire = new ArrayList<>();
@@ -53,11 +62,13 @@ public class FireController {
 			fireperson.setFirestation(firestation.getStation());
 			fire.add(fireperson);
 		}
+		logger.info("List of persons covered by a firestation at this address : {}", fire);
 		return fire;
 	}
 	
 	@GetMapping("/flood")
 	public Iterable<FireDTO> getFlood(@RequestParam Integer station) throws NoSuchElementException {
+		logger.info("FireController (GET) : Getting all persons covered by firestation number" + station);
 		Iterable<String> address = firestationService.findByStation(station);
 		List<FireDTO> flood = new ArrayList<>();
 		for (String string : address) {
@@ -74,6 +85,7 @@ public class FireController {
 			flood.add(floodperson);
 		}
 		}
+		logger.info("List of all persons covered by firestation number : {}", flood);
 		return flood;
 	}
 

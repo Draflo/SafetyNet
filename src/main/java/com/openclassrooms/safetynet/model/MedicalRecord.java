@@ -15,10 +15,12 @@ import com.openclassrooms.safetynet.model.converter.ListStringConverter;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @Entity
+@ToString
 @AllArgsConstructor
 @Table(name = "medicalrecords")
 public class MedicalRecord {

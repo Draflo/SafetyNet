@@ -3,9 +3,12 @@ package com.openclassrooms.safetynet.controller;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +25,11 @@ public class MedicalRecordsController {
 	@Autowired
 	private MedicalRecordService medicalRecordService;
 	
+	@ExceptionHandler(Exception.class)
+	public void handleExeption() {}
+	
+	private static final Logger logger = LogManager.getLogger(MedicalRecordsController.class);
+	
 	public MedicalRecordsController(MedicalRecordService medicalRecordService) {
 		this.medicalRecordService = medicalRecordService;
 	}
@@ -33,7 +41,10 @@ public class MedicalRecordsController {
 	 */
 	@GetMapping("/medicalRecords")
 	public Iterable<MedicalRecord> list() {
-		return medicalRecordService.list();
+		logger.info("MedicalRecordController (GET) Getting all medicalrecords");
+		Iterable<MedicalRecord> list = medicalRecordService.list();
+		logger.info("Medical Records List : {}", list);
+		return list;
 
 	}
 
@@ -45,7 +56,9 @@ public class MedicalRecordsController {
 	 */
 	@GetMapping("/medicalRecord/{id}")
 	public MedicalRecord getMedicalRecord(@PathVariable("id") final Long id) {
+		logger.info("MedicalRecordController (GET) Getting the medicalrecord with ID number" + id);
 		Optional<MedicalRecord> medicalRecord = medicalRecordService.getMedicalRecords(id);
+		logger.info("Medical Record : {}", medicalRecord);
 		if (medicalRecord.isPresent()) {
 			return medicalRecord.get();
 		} else {
@@ -62,6 +75,7 @@ public class MedicalRecordsController {
 	@PostMapping("/medicalRecord")
 	public ResponseEntity<MedicalRecord> createMedicalRecord(@RequestBody MedicalRecord medicalRecord) {
 		MedicalRecord saveMedicalRecord = medicalRecordService.saveMedicalRecord(medicalRecord);
+		logger.info("MedicalRecordController (POST) Medicalrecord added to Database: {}", saveMedicalRecord);
 		return ResponseEntity.created(null).body(saveMedicalRecord);
 	}
 
@@ -73,6 +87,7 @@ public class MedicalRecordsController {
 	@DeleteMapping("/medicalRecord")
 	public void deleteMedicalRecord(@RequestParam("lastName") String lastName, @RequestParam("firstName") String firstName) {
 		medicalRecordService.deleteMedicalRecord(lastName, firstName);
+		logger.info("MedicalRecordController (DEL) Medicalrecord deleted from Database");
 	}
 
 	/**
@@ -82,11 +97,10 @@ public class MedicalRecordsController {
 	 * @param employee - The medicalRecord object updated
 	 * @return
 	 */
-	@PutMapping("/medicalRecord/{id}")
-	public MedicalRecord updateMedicalRecord(@PathVariable("id") final Long id, @RequestBody MedicalRecord medicalRecord) {
-		Optional<MedicalRecord> mr = medicalRecordService.getMedicalRecords(id);
-		if (mr.isPresent()) {
-			MedicalRecord currentMedicalRecord = mr.get();
+	@PutMapping("/medicalRecord")
+	public MedicalRecord updateMedicalRecord(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName, @RequestBody MedicalRecord medicalRecord) {
+		MedicalRecord mr = medicalRecordService.findByFirstNameAndLastName(firstName, lastName);
+			MedicalRecord currentMedicalRecord = mr;
 
 			List<String> medications = medicalRecord.getMedications();
 			if (medications != null) {
@@ -98,10 +112,8 @@ public class MedicalRecordsController {
 			}
 
 			medicalRecordService.saveMedicalRecord(currentMedicalRecord);
+			logger.info("MedicalRecordController (PUT) Medicalrecord updated in Database: {}", currentMedicalRecord);
 			return currentMedicalRecord;
 
-		} else {
-			return null;
-		}
 	}
 }
