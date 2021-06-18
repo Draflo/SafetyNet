@@ -1,0 +1,76 @@
+@startuml
+[MedicalRecord]
+
+[Firestation]
+
+[Person]
+
+[LoadDataModel]
+
+() "ListStringConverter"
+
+() "AttributeConverter_List_String__String_"
+
+AttributeConverter_List_String__String_ <.. ListStringConverter
+
+[PersonsController]
+
+[PersonInfoController]
+
+[MedicalRecordsController]
+
+[FireController]
+
+[FirestationController]
+
+[PersonInfoDTO]
+
+[FireDTO]
+
+[PersonByFirestationDTO]
+
+() "FirestationRepository"
+
+() "CrudRepository_Firestation_Long_"
+
+CrudRepository_Firestation_Long_ <--- FirestationRepository
+
+() "MedicalRecordRepository"
+
+() "CrudRepository_MedicalRecord_Long_"
+
+CrudRepository_MedicalRecord_Long_ <--- MedicalRecordRepository
+
+() "PersonRepository"
+
+() "CrudRepository_Person_Long_"
+
+CrudRepository_Person_Long_ <--- PersonRepository
+
+LoadDataModel --> Firestation : getFirestations()
+
+LoadDataModel --> Person : getPersons()
+
+LoadDataModel --> MedicalRecord : getMedicalrecords()
+
+PersonService <--  PersonsController : Call
+PersonService --> PersonRepository : Call
+PersonRepository --> Person : getPersons()
+MedicalRecord ..|> ListStringConverter : Uses
+MedicalRecordsController --> MedicalRecordService : Call
+MedicalRecordService --> MedicalRecordRepository : Call
+MedicalRecordRepository --> MedicalRecord : getMedicalRecords()
+FirestationController --> FirestationService : Call
+FirestationController --> PersonByFirestationDTO : Call
+FirestationService --> FirestationRepository : Call
+FirestationRepository --> Firestation : getFirestations()
+PersonInfoController --> PersonService : Call
+PersonInfoController --> MedicalRecordService : Call
+PersonInfoDTO --> Person : getPersons()
+PersonInfoDTO --> MedicalRecord : getMedicalRecords
+FireController --> FireDTO : Call
+FireDTO --> FirestationService : Call
+FireDTO --> MedicalRecordService : Call
+FireDTO --> PersonService : Call
+
+@enduml

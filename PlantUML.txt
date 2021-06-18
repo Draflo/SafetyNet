@@ -171,7 +171,7 @@ class PersonInfoDTO [[java:com.openclassrooms.safetynet.DTO.PersonInfoDTO]] {
 	+hashCode(): int
 	+toString(): String
 }
-class Fire [[java:com.openclassrooms.safetynet.DTO.Fire]] {
+class FireDTO [[java:com.openclassrooms.safetynet.DTO.Fire]] {
 	-firstName: String
 	-lastName: String
 	-address: String
@@ -202,7 +202,7 @@ class Fire [[java:com.openclassrooms.safetynet.DTO.Fire]] {
 	+hashCode(): int
 	+toString(): String
 }
-class PersonByFirestation [[java:com.openclassrooms.safetynet.DTO.PersonByFirestation]] {
+class PersonByFirestationDTO [[java:com.openclassrooms.safetynet.DTO.PersonByFirestation]] {
 	-firstName: String
 	-lastName: String
 	-address: String
@@ -238,7 +238,7 @@ interface FirestationRepository [[java:com.openclassrooms.safetynet.repository.F
 }
 interface "CrudRepository<Firestation,Long>" as CrudRepository_Firestation_Long_ {
 }
-CrudRepository_Firestation_Long_ <|-- FirestationRepository
+CrudRepository_Firestation_Long_ <|- FirestationRepository
 interface MedicalRecordRepository [[java:com.openclassrooms.safetynet.repository.MedicalRecordRepository]] {
 	delete(lastName: String, firstName: String): void
 	findByFirstNameAndLastName(firstName: String, lastName: String): Optional<MedicalRecord>
@@ -246,7 +246,7 @@ interface MedicalRecordRepository [[java:com.openclassrooms.safetynet.repository
 }
 interface "CrudRepository<MedicalRecord,Long>" as CrudRepository_MedicalRecord_Long_ {
 }
-CrudRepository_MedicalRecord_Long_ <|-- MedicalRecordRepository
+CrudRepository_MedicalRecord_Long_ <|- MedicalRecordRepository
 interface PersonRepository [[java:com.openclassrooms.safetynet.repository.PersonRepository]] {
 	delete(lastName: String, firstName: String): void
 	findByFirstNameAndLastName(firstName: String, lastName: String): Optional<Person>
@@ -257,7 +257,7 @@ interface PersonRepository [[java:com.openclassrooms.safetynet.repository.Person
 }
 interface "CrudRepository<Person,Long>" as CrudRepository_Person_Long_ {
 }
-CrudRepository_Person_Long_ <|-- PersonRepository
+CrudRepository_Person_Long_ <|- PersonRepository
 
 class MedicalRecordService [[java:com.openclassrooms.safetynet.service.MedicalRecordService]] {
 	-medicalRecordRepository: MedicalRecordRepository
@@ -344,10 +344,15 @@ MedicalRecordsController --> MedicalRecordService : Call
 MedicalRecordService --> MedicalRecordRepository : Call
 MedicalRecordRepository --> MedicalRecord : getMedicalRecords()
 FirestationController --> FirestationService : Call
+FirestationController --> PersonByFirestationDTO : Call
 FirestationService --> FirestationRepository : Call
 FirestationRepository --> Firestation : getFirestations()
 PersonInfoController --> PersonService : Call
 PersonInfoController --> MedicalRecordService : Call
 PersonInfoDTO --> Person : getPersons()
 PersonInfoDTO --> MedicalRecord : getMedicalRecords
+FireController --> FireDTO : Call
+FireDTO --> FirestationService : Call
+FireDTO --> MedicalRecordService : Call
+FireDTO --> PersonService : Call
 @enduml

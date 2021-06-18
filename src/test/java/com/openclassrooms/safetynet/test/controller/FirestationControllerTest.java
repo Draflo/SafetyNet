@@ -32,7 +32,7 @@ import com.openclassrooms.safetynet.service.PersonService;
 import com.openclassrooms.safetynet.util.AgeCalculator;
 
 @WebMvcTest(controllers = FirestationController.class)
-class FirestationControllerTest {
+public class FirestationControllerTest {
 	
 	@Autowired
 	private MockMvc mockMvc;
@@ -99,17 +99,18 @@ class FirestationControllerTest {
 	}
 	
 	@Test
-	void testPostAFirestation() throws Exception {
-		Firestation firestation = new Firestation();
-		firestation.setAddress("TestAddress");
+	public void testPostAFirestation() throws Exception {
+		Firestation firestation = new Firestation(1L, "Test Address", 1);
+		when(firestationService.saveFirestation(firestation)).thenReturn(firestation);
 		mockMvc.perform(post("/firestation").contentType(MediaType.APPLICATION_JSON_VALUE).content(objectMapper.writeValueAsString(firestation))).andExpect(status().isCreated());
 	}
 	 
 	@Test
-	void testPutAFirestation() throws Exception {
-		Firestation firestation = new Firestation(1L, "1509 Culver St", 3);
+	public void testPutAFirestation() throws Exception {
+		Firestation firestation = new Firestation(1L, "Test Address", 3);
 		when(firestationService.getFirestation(1L)).thenReturn(Optional.of(firestation));
-		mockMvc.perform(put("/firestation/1").contentType(MediaType.APPLICATION_JSON_VALUE).content(objectMapper.writeValueAsString(firestation))).andExpect(status().isOk());
+		when(firestationService.saveUpdated(firestation)).thenReturn(firestation);
+		mockMvc.perform(put("/firestation?id=1").contentType(MediaType.APPLICATION_JSON_VALUE).content(objectMapper.writeValueAsString(firestation))).andExpect(status().isOk());
 	}
 	
 	@Test

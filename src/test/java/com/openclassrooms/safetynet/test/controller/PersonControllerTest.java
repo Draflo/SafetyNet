@@ -48,16 +48,16 @@ class PersonControllerTest {
 	
 	@Test
 	void testPostAPerson() throws Exception {
-		Person person = new Person();
-		person.setLastName("TestName");
+		Person person = new Person(1, "Test", "Test", "Testaddress", "Culver", 97451, "Test", "Test");
+		when(personService.savePerson(person)).thenReturn(person);
 		mockMvc.perform(post("/person").contentType(MediaType.APPLICATION_JSON_VALUE).content(objectMapper.writeValueAsString(person))).andExpect(status().isCreated());
 	}
 	 
 	@Test
 	void testPutAPerson() throws Exception {
 		Person person = new Person(1, "John", "Boyd", "1509 Culver St", "Culver", 97451, "841-874-6512", "jaboyd@email.com");
-		when(personService.getPersons(1L)).thenReturn(Optional.of(person));
-		mockMvc.perform(put("/person/1").contentType(MediaType.APPLICATION_JSON_VALUE).content(objectMapper.writeValueAsString(person))).andExpect(status().isOk());
+		when(personService.findByFirstNameAndLastName("John", "Boyd")).thenReturn(person);
+		mockMvc.perform(put("/person?firstName=John&lastName=Boyd").contentType(MediaType.APPLICATION_JSON_VALUE).content(objectMapper.writeValueAsString(person))).andExpect(status().isOk());
 	}
 	
 	@Test

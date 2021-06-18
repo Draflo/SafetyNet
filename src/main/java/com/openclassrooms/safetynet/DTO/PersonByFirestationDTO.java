@@ -2,9 +2,11 @@ package com.openclassrooms.safetynet.DTO;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter 
-@Setter 
+@Setter
+@ToString
 public class PersonByFirestationDTO {
 
 	private String firstName;
