@@ -8,7 +8,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,8 +57,8 @@ class MedicalRecordsControllerTest {
 	}
 	@Test
 	void testPutAMedicalRecord() throws Exception {
-		when(medicalRecordService.getMedicalRecords(1L)).thenReturn(Optional.of(mrJohn));
-		mockMvc.perform(put("/medicalRecord/1").contentType(MediaType.APPLICATION_JSON_VALUE).content(objectMapper.writeValueAsString(mrJohn))).andExpect(status().isOk());
+		when(medicalRecordService.findByFirstNameAndLastName("John", "Boyd")).thenReturn(mrJohn);
+		mockMvc.perform(put("/medicalRecord?firstName=John&lastName=Boyd").contentType(MediaType.APPLICATION_JSON_VALUE).content(objectMapper.writeValueAsString(mrJohn))).andExpect(status().isOk());
 	}
 	
 	@Test

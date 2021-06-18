@@ -2,9 +2,12 @@ package com.openclassrooms.safetynet.controller;
 
 import java.util.Optional;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +23,11 @@ import com.openclassrooms.safetynet.service.PersonService;
 public class PersonsController {
 	@Autowired
 	private PersonService personService;
+	
+	@ExceptionHandler(Exception.class)
+	public void handleExeption() {}
+	
+	private static final Logger logger = LogManager.getLogger(PersonsController.class);
 
 	public PersonsController(PersonService personService) {
 		this.personService = personService;
@@ -32,18 +40,27 @@ public class PersonsController {
 	 */
 	@GetMapping("/persons")
 	public Iterable<Person> list() {
-		return personService.findAll();
+		logger.info("PersonsController (GET) Getting all persons");
+		Iterable<Person> findAll = personService.findAll();
+		logger.info("Persons List : {}", findAll);
+		return findAll;
 
 	}
 	
 	@GetMapping("/communityEmail")
 	public Iterable<Person> getAllMailFromCity(@RequestParam String city) {
-		return personService.getMailFromCity(city);
+		logger.info("PersonsController (GET) Getting all emails from city: " + city);
+		Iterable<Person> mailFromCity = personService.getMailFromCity(city);
+		logger.info("Emails List : {}", mailFromCity);
+		return mailFromCity;
 	}
 	
 	@GetMapping("/phoneAlert")
 	public Iterable<Person> getPhoneNumberFromStation(@RequestParam(value = "firestation") Integer station) {
-		return personService.getPhoneByStation(station);
+		logger.info("PersonsController (GET) Getting all phone numbers from firestation number: " + station);
+		Iterable<Person> phoneByStation = personService.getPhoneByStation(station);
+		logger.info("Phones List : {}", phoneByStation);
+		return phoneByStation;
 	}
 
 	/**
@@ -54,7 +71,9 @@ public class PersonsController {
 	 */
 	@GetMapping("/person/{id}")
 	public Person getPerson(@PathVariable("id") final Long id) {
+		logger.info("PersonsController (GET) Getting the person with ID number" + id);
 		Optional<Person> person = personService.getPersons(id);
+		logger.info("Person : {}", person);
 		if (person.isPresent()) {
 			return person.get();
 		} else {
@@ -71,6 +90,7 @@ public class PersonsController {
 	@PostMapping("/person")
 	public ResponseEntity<Person> createPerson(@RequestBody Person person) {
 		Person savePerson = personService.savePerson(person);
+		logger.info("PersonsController (POST) Person added to Database : {}", savePerson);
 		return ResponseEntity.created(null).body(savePerson);
 	}
 
@@ -82,6 +102,7 @@ public class PersonsController {
 	@DeleteMapping("/person")
 	public void deletePerson(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName) {
 		personService.deletePerson(firstName, lastName);
+		logger.info("PersonsController (DEL) Person deleted from Database");
 	}
 
 	/**
@@ -91,11 +112,10 @@ public class PersonsController {
 	 * @param person - The person object updated
 	 * @return
 	 */
-	@PutMapping("/person/{id}")
-	public Person updatePerson(@PathVariable("id") final Long id, @RequestBody Person person) {
-		Optional<Person> f = personService.getPersons(id);
-		if (f.isPresent()) {
-			Person currentPerson = f.get();
+	@PutMapping("/person")
+	public Person updatePerson(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName, @RequestBody Person person) {
+		Person f = personService.findByFirstNameAndLastName(firstName, lastName);
+			Person currentPerson = f;
 
 			String address = person.getAddress();
 			if (address != null) {
@@ -119,11 +139,9 @@ public class PersonsController {
 			}
 
 			personService.savePerson(currentPerson);
+			logger.info("PersonsController (PUT) Person updated in Database" + currentPerson.toString());
 			return currentPerson;
 
-		} else {
-			return null;
-		}
 	}
 
 }
