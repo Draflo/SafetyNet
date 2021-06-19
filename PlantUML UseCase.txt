@@ -1,0 +1,22 @@
+@startuml
+
+usecase UC1 as " I want to get all infos 
+about John Boyd
+--
+Get personInfoDTO <John Boyd>"
+(personService) as UC2
+(medicalRecordService) as UC3
+(personRepository) as UC4
+(medicalRecordRepository) as UC5
+(Person) as UC6
+(MedicalRecord) as UC7
+:user: --> UC1
+UC1 --> UC2 
+UC1 --> UC3
+UC2 --> UC4
+UC3 --> UC5
+UC4 --> UC6
+UC5 --> UC7
+UC6 --> UC1 : Send infos 
+UC7 --> UC1 : Send infos
+@enduml

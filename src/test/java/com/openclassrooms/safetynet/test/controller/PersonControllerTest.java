@@ -57,7 +57,7 @@ class PersonControllerTest {
 	void testPutAPerson() throws Exception {
 		Person person = new Person(1, "John", "Boyd", "1509 Culver St", "Culver", 97451, "841-874-6512", "jaboyd@email.com");
 		when(personService.getPersons(1L)).thenReturn(Optional.of(person));
-		mockMvc.perform(put("/person/1").contentType(MediaType.APPLICATION_JSON_VALUE).content(objectMapper.writeValueAsString(person))).andExpect(status().isOk());
+		mockMvc.perform(put("/person?firstName=John&lastName=Boyd").contentType(MediaType.APPLICATION_JSON_VALUE).content(objectMapper.writeValueAsString(person))).andExpect(status().isOk());
 	}
 	
 	@Test

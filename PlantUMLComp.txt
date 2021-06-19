@@ -1,9 +1,10 @@
 @startuml
+
+database {
 [MedicalRecord]
-
 [Firestation]
-
 [Person]
+}
 
 [LoadDataModel]
 
@@ -13,45 +14,44 @@
 
 AttributeConverter_List_String__String_ <.. ListStringConverter
 
-[PersonsController]
-
-[PersonInfoController]
-
-[MedicalRecordsController]
-
-[FireController]
-
-[FirestationController]
-
+package " DTO " {
 [PersonInfoDTO]
-
-[FireDTO]
-
+[FireandFloodDTO]
 [PersonByFirestationDTO]
+}
 
 () "FirestationRepository"
 
 () "CrudRepository_Firestation_Long_"
 
-CrudRepository_Firestation_Long_ <--- FirestationRepository
+CrudRepository_Firestation_Long_ <-- FirestationRepository
 
 () "MedicalRecordRepository"
 
 () "CrudRepository_MedicalRecord_Long_"
 
-CrudRepository_MedicalRecord_Long_ <--- MedicalRecordRepository
+CrudRepository_MedicalRecord_Long_ <-- MedicalRecordRepository
 
 () "PersonRepository"
 
 () "CrudRepository_Person_Long_"
 
-CrudRepository_Person_Long_ <--- PersonRepository
+CrudRepository_Person_Long_ <-- PersonRepository
 
 LoadDataModel --> Firestation : getFirestations()
 
 LoadDataModel --> Person : getPersons()
 
 LoadDataModel --> MedicalRecord : getMedicalrecords()
+
+package "Controller" {
+[PersonsController]
+[PersonInfoController]
+[MedicalRecordsController]
+[FireController]
+[FirestationController]
+}
+
 
 PersonService <--  PersonsController : Call
 PersonService --> PersonRepository : Call
@@ -66,11 +66,15 @@ FirestationService --> FirestationRepository : Call
 FirestationRepository --> Firestation : getFirestations()
 PersonInfoController --> PersonService : Call
 PersonInfoController --> MedicalRecordService : Call
+PersonInfoController -> PersonInfoDTO : Call
 PersonInfoDTO --> Person : getPersons()
 PersonInfoDTO --> MedicalRecord : getMedicalRecords
-FireController --> FireDTO : Call
-FireDTO --> FirestationService : Call
-FireDTO --> MedicalRecordService : Call
-FireDTO --> PersonService : Call
+FireController --> FireandFloodDTO : Call
+FireandFloodDTO --> FirestationService : Call
+FireandFloodDTO --> MedicalRecordService : Call
+FireandFloodDTO --> PersonService : Call
+PersonByFirestationDTO --> FirestationService : Call
+PersonByFirestationDTO --> PersonService : Call
+PersonByFirestationDTO --> MedicalRecordService : Call
 
 @enduml

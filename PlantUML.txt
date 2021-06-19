@@ -171,7 +171,7 @@ class PersonInfoDTO [[java:com.openclassrooms.safetynet.DTO.PersonInfoDTO]] {
 	+hashCode(): int
 	+toString(): String
 }
-class FireDTO [[java:com.openclassrooms.safetynet.DTO.Fire]] {
+class FireandFloodDTO [[java:com.openclassrooms.safetynet.DTO.Fire]] {
 	-firstName: String
 	-lastName: String
 	-address: String
@@ -336,6 +336,7 @@ class MedicalRecord {
 }
 LoadDataModel --> "*" MedicalRecord : getMedicalrecords()
 
+
 PersonService <--  PersonsController : Call
 PersonService --> PersonRepository : Call
 PersonRepository --> Person : getPersons()
@@ -349,10 +350,14 @@ FirestationService --> FirestationRepository : Call
 FirestationRepository --> Firestation : getFirestations()
 PersonInfoController --> PersonService : Call
 PersonInfoController --> MedicalRecordService : Call
+PersonInfoController -> PersonInfoDTO : Call
 PersonInfoDTO --> Person : getPersons()
 PersonInfoDTO --> MedicalRecord : getMedicalRecords
-FireController --> FireDTO : Call
-FireDTO --> FirestationService : Call
-FireDTO --> MedicalRecordService : Call
-FireDTO --> PersonService : Call
+FireController --> FireandFloodDTO : Call
+FireandFloodDTO --> FirestationService : Call
+FireandFloodDTO --> MedicalRecordService : Call
+FireandFloodDTO --> PersonService : Call
+PersonByFirestationDTO --> FirestationService : Call
+PersonByFirestationDTO --> PersonService : Call
+PersonByFirestationDTO --> MedicalRecordService : Call
 @enduml

@@ -59,7 +59,7 @@ class MedicalRecordsControllerTest {
 	@Test
 	void testPutAMedicalRecord() throws Exception {
 		when(medicalRecordService.getMedicalRecords(1L)).thenReturn(Optional.of(mrJohn));
-		mockMvc.perform(put("/medicalRecord/1").contentType(MediaType.APPLICATION_JSON_VALUE).content(objectMapper.writeValueAsString(mrJohn))).andExpect(status().isOk());
+		mockMvc.perform(put("/medicalRecord?firstName=John&lastName=Boyd").contentType(MediaType.APPLICATION_JSON_VALUE).content(objectMapper.writeValueAsString(mrJohn))).andExpect(status().isOk());
 	}
 	
 	@Test
